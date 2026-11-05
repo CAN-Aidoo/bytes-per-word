@@ -1,0 +1,65 @@
+# Venue gate: bytes-per-word
+Author: venue-strategist · Date: 2026-11-05 · All pages accessed 2026-11-05 unless stated.
+Convention: UNVERIFIED = I could not confirm it from a page I opened. Nothing below is from memory.
+
+## 0. Access limits (read first)
+- Scimago (SJR) pages and CORE search pages were blocked or failed to load in this session (scimagojr.com journalsearch/journalrank, resurchify, CORE search for MLSys). **No SJR quartile could be verified for any journal.** The only ranking I verified is CORE for ISPASS (below). Ask a human with browser access to fill the SJR cells from the Scimago links given.
+- 2027 calls for ISPASS and EuroMLSys were not found online yet. Deadlines for those are UNVERIFIED; prior-year dates are given only as a planning guide, not as facts about 2027.
+
+## 1. Preprint server
+
+### Recommendation
+1. **Primary: TechRxiv** (https://techrxiv.figshare.com/f/submission-guidelines). Reasons: IEEE-run server whose scope is electrical, computer and engineering topics, so an architecture/performance paper is in scope; screening is for plagiarism, offensive content and scope only, "not peer review", decision within 4 business days; no affiliation requirement stated; CC BY 4.0 available.
+2. **Fallback: engrXiv** (https://engrxiv.org/about). Caution: its stated rejection rule includes "mathematics, theoretical physics, computer science, IT, or cybersecurity without a strong engineering connection", AI-focused submissions get extra scrutiny, and heavy LLM use may require "additional evidence of human authorship". Frame the abstract and category as computer engineering / memory systems / embedded, not "LLM paper". Moderated within about 3 business days; CC BY 4.0 enforced; withdrawal after posting only under "extenuating circumstances".
+3. **arXiv (cs.PF primary, cs.AR / cs.LG cross-list): only if an endorsement is obtained.**
+
+### arXiv endorsement (https://arxiv.org/mirrorhelp/endorsement.html)
+- Authors must be endorsed before their first submission to a category or subject class. Endorsement needs one positive endorsement from an author who has papers in that domain submitted 3 months to 5 years ago. Auto-endorsement is by known academic institution email, subject area and prior submissions; a CANLABS address is unlikely to qualify (UNVERIFIED, no list published).
+- I could not confirm from arXiv pages whether cs.PF, cs.AR and cs.LG are each separate domains or one; assume endorsement is needed for the first category used. Public forum threads show other independent authors seeking endorsement for exactly cs.LG / cs.AR (https://discuss.huggingface.co/t/looking-for-endorsor-for-arxiv-submission-cs-lg-cs-ai-cs-ar/177801), which supports but does not prove this.
+- arXiv blog 2026 index (https://blog.arxiv.org/2026) mentions an Oct 1, 2026 rate-limit update framed around AI; specifics not visible. UNVERIFIED whether it affects a new author.
+- Practical route: use the "Which of these authors are endorsers?" link on the abstract pages of the cited llama.cpp-class / roofline papers, send the endorser the draft and the 6-character code, one request per person.
+
+### Preprint vs peer-review venue rules
+- IEEE preprint policy copy (https://cis.ieee.org/images/files/Publications/IEEE_Preprint_Policy.pdf, society-hosted, date unknown) says "The only approved third-party server is arXiv" and does not name TechRxiv or engrXiv. TechRxiv is IEEE-operated, but the current IEEE wording on TechRxiv/engrXiv is **UNVERIFIED**. Before any IEEE journal submission (CAL), confirm on the IEEE Author Center that the chosen server is accepted. Conference venues (ISPASS, SEC, EuroMLSys) preprint rules: UNVERIFIED except MLSys, which allows arXiv under a different title and system name.
+- After posting, update the preprint with the IEEE copyright notice once an IEEE paper is submitted (same IEEE document).
+
+## 2. Peer-reviewed targets
+
+| # | Venue | Scope fit | Ranking (source, accessed) | Review model | Length / template | Open-access cost | Next deadline | Predatory check |
+|---|---|---|---|---|---|---|---|---|
+| 1 | **IEEE ISPASS** (IEEE TCCA, Apr/May annual) | Strong. Scope: performance analysis of systems and software, evaluation methodology, emerging workloads, memory systems; also "confirmations or refutations of prior results" (https://ieeetcca.org/?p=22865). Best match for a measurement + analytical model paper. | CORE **B** (ICORE2026): https://portal.core.edu.au/conf-ranks/705, 2026-11-05. | Programme-committee review with rebuttal (2026: rebuttal Feb 2-5, notification Feb 23). Double-blind: UNVERIFIED. | Page limit and template UNVERIFIED (not on pages I could open). Typical IEEE conference two-column; confirm in the 2027 CFP. | Conference paper in IEEE proceedings; no APC found. Registration fee UNVERIFIED. | **ISPASS 2027 CFP not found: UNVERIFIED.** Guide only: 2026 full paper Dec 12, 2025, abstract Dec 5, 2025 (https://ieeetcca.org/?p=22865); 2025 full paper Dec 16, 2024 (https://lists.mcs.anl.gov/pipermail/hpc-announce/2024-November/010774.html). Expect roughly mid-Dec 2026; verify at ieeetcca.org. | Pass: IEEE TCCA technical-committee conference, CORE-listed, no solicitation or fee-for-acceptance signals found. |
+| 2 | **ACM/IEEE SEC 2027** (Symposium on Edge Computing, Durham NC, Dec 7-10 2027 tentative) | Good. Edge AI, "systems implementation and performance evaluation especially encouraged" (https://acm-ieee-sec.org/2026/call_for_papers.php). CPU-only edge inference fits. | CORE: UNVERIFIED (search blocked). SJR n/a (conference). | Double-blind, rebuttal, HotCRP; one author must attend and present. | Full paper 12 pages excl. references; IEEE two-column, 10 pt; +2 pages if accepted; over-limit desk-rejected. | ACM published 2026 conferences under full OA: subsidised APC $250 (member) / $350 (non-member) where institution is not ACM Open (https://www.acm.org/special-interest-groups/volunteer-resources/acms-transition-to-open-access). 2027 amount and whether SEC proceedings is ACM or IEEE: UNVERIFIED. Waivers "rare"; independent author would likely pay. | **2027 dates TBD** (https://acm-ieee-sec.org, "to be determined"). 2026 cycle: abstract Apr 24, paper May 1, 2026 as a guide only. | Pass: ACM + IEEE co-sponsored, 12th edition, no red flags found. |
+| 3 | **EuroMLSys 2027** (workshop at EuroSys) | Good for ML-systems framing; short paper. | Workshop, no CORE/SJR rank. Prestige low but archival-optional. | Single-blind (2026 CFP); HotCRP. | 6 pages incl. figures and tables, references and appendices extra; SIGPLAN acmart 10 pt two-column, 8.5x11. | ACM DL listing, authors may opt out (so no APC implied; 2027 ACM OA terms UNVERIFIED). | **2027 CFP not found: UNVERIFIED.** 2026 edition: submission Feb 24, 2026 AoE, notification Mar 17, workshop Apr 27, Edinburgh (https://groups.google.com/g/ML-news/c/bg0tmvdsliQ). 2027 expected similar; verify at https://euromlsys.eu (fetch was blocked). | Pass: co-located with ACM SIGOPS EuroSys, ACM DL. |
+| 4 | **IEEE Computer Architecture Letters (CAL)** | Good for a compressed result: "early, novel results... workload characterization, performance evaluation, memory and cache systems" (https://computer.org/digital-library/journals/ca/cfp-ieee-computer-architecture-letters). | SJR quartile: **UNVERIFIED** (Scimago page failed; https://www.scimagojr.com/journalsearch.php?q=5200152635&tip=sid for a human to check). | Rolling, ScholarOne, EIC scope check then associate editor. First decision about 30 days (85% of 2025 submissions); acceptance about 35% (https://www.sigarch.org/ieee-computer-architecture-letters-cal-an-update-and-faqs/, post of 2025-11-21). Blind policy UNVERIFIED. | **4 pages including figures, tables, references**; longer is returned unreviewed. IEEE Template Selector. | Hybrid. Free to publish if not OA; OA fee $2,800 (IEEE APC list updated 2026-07-30: https://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/2026-07-30-IEEE-Article-Processing-Charges-List.pdf). Overlength $220/page. Low-income-country discounts may apply to corresponding authors (stated for ESL, same IEEE scheme; confirm for CAL). | Rolling, no fixed deadline. Rule: a paper under CAL review cannot be submitted to a conference until CAL decision is final. | Pass: IEEE/TCCA journal, widely used in the architecture community. |
+
+### Considered and not recommended
+- **MLSys 2027**: submission deadline was Oct 30, 2026 (passed) (https://mlsys.org). Format 10 pages excl. references, double-blind, AE voluntary and only for accepted papers, same style as 2025 (https://mlsys.org/Conferences/2027/CallForResearchPapers). Possible stretch for MLSys 2028 (about Oct 2027, UNVERIFIED), but pure measurement/model papers are a hard sell there.
+- **IEEE Access**: legitimate (IEEE, full OA) but APC **$2,160** (https://ieeeaccess.ieee.org/about/article-processing-charges/, page modified 2025-12-30; confirmed in the 2026-07-30 list). Mega-journal, weak signal for this paper; not predatory, but cost without matching benefit. Keep as last-resort only. SJR UNVERIFIED.
+- **IEEE Embedded Systems Letters**: 4 pages including references, single-anonymous, about 1-month first decision, hybrid with $2,800 OA fee, desk-rejects papers lacking comparison with closely related work or an AI-use disclosure (https://ieee-ceda.org/publication/esl/esl-author-instructions). Scope is embedded systems; weaker fit than CAL. SJR UNVERIFIED.
+- **Journal of Systems Architecture (Elsevier)**: scope covers embedded software design and architecture but emphasises software; APC, review time and rankings not retrievable (https://shop.elsevier.com/journals/journal-of-systems-architecture/1383-7621). All UNVERIFIED. Excluded for lack of verifiable data.
+- **ACM TACO**: no author-guideline or ranking page retrieved. UNVERIFIED; excluded. ACM full-OA transition from 2026-01-01 may impose an APC on a non-ACM-Open author.
+
+Predatory check method: sponsor/publisher identity (IEEE, ACM, IEEE TCCA, EuroSys), presence of real peer review described on the official page, no fee-for-acceptance, no indexing claims. I did not find or search for solicitation emails. For all four recommended venues, no doubt found.
+
+## 3. Ranked recommendation
+1. **ISPASS 2027** (CORE B, best scope fit, full-length paper). Deadline likely mid-Dec 2026: this is tight (about 6 weeks); confirm the date immediately. Travel and visa cost for a Ghana-based author is a real constraint; budget it.
+2. **ACM/IEEE SEC 2027** (12 pages, edge theme, dates TBD, long runway until about spring 2027). Natural second shot after ISPASS if rejected.
+3. **IEEE CAL** (4-page letter, rolling, about 30-day decision, free if not OA). Use only for a compressed variant; do not run in parallel with a conference (CAL rule above).
+4. **EuroMLSys 2027** (6 pages, workshop, optional archival) for quick feedback; low prestige.
+
+Single-shot plan: post to TechRxiv at submission; submit ISPASS 2027; cascade to SEC 2027.
+
+## 4. Format rules for the paper-writer
+- **Base template:** IEEEtran two-column conference (10 pt), as the author prefers IEEE style with teaser figure, contribution bullets, Q1-Q4 experiment subsections, short Limitations + Conclusion. Verified IEEE-compatible for SEC and fits ISPASS (ISPASS template UNVERIFIED; confirm).
+- **Page budget:** design for 12 pages excluding references (SEC's cap; ISPASS limit UNVERIFIED), main story fitting in 10 so it also meets MLSys-style 10 pages. Keep a clean modular source so 6-page (EuroMLSys, SIGPLAN acmart) and 4-page (CAL, references included) cuts are mechanical. Never submit over the limit: both SEC and CAL desk-reject.
+- **Anonymisation:** write the main source so one switch removes author names, CANLABS affiliation, repo URL, acknowledgements and self-identifying text; SEC is double-blind and ISPASS may be. Cite own prior work in the third person. Preprint rule for double-blind venues: UNVERIFIED for ISPASS/SEC; the paper-writer must not put the preprint link in the blind PDF.
+- **Artefacts:** ISPASS accepted tool/benchmark papers must open-source before the conference; MLSys AE is voluntary after acceptance (ACM badging). Prepare a release-ready repo (scripts, raw token-rate logs, bandwidth-measurement tool, machine specs) regardless; link it only in the camera-ready.
+- **AI-use disclosure:** ESL requires one in Acknowledgments; engrXiv scrutinises heavy LLM use. Include a short, accurate disclosure in every version.
+- **Preprint:** TechRxiv with CC BY 4.0; add IEEE copyright notice after any IEEE submission, per IEEE policy copy above.
+- **Scope wording:** title and abstract should say CPU inference memory-bandwidth model for edge/embedded systems, not just "LLMs", to satisfy engrXiv's engineering-connection rule and architecture venues.
+
+## 5. Open items for a human
+1. Fill SJR quartiles (CAL, ESL, TACO, JSA, Access) from Scimago; check CORE for SEC and ISPASS-class peers.
+2. Confirm ISPASS 2027 CFP date, page limit, blind policy, template (https://ieeetcca.org).
+3. Confirm IEEE's stance on TechRxiv/engrXiv for IEEE journals.
+4. Decide on arXiv endorsement outreach in parallel.
