@@ -1,5 +1,5 @@
 # Agent budget
-Class: standard · Limit: 35 instances, 6 concurrent
+Class: note · Limit: 12 instances, 4 concurrent
 | Date | Phase | Spawned by | Agent | Count | Purpose |
 |---|---|---|---|---|---|
 | 2026-11-05 | P0 | research-director | literature-scout | 1 | literature map |

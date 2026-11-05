@@ -7,3 +7,4 @@ Context: Follows the CANLABS frugal-AI thesis and the GPU-less AI direction (mem
 Pi to be borrowed. Cloud workspace CPU (2-vCPU Xeon, 7 GB) usable for development runs only.
 
 - 2026-11-05: Author confirms no Raspberry Pi is available. Scored CPU hosts so far: Ryzen 5 5500U laptop; cloud 2-vCPU Xeon (labelled, virtualised). Per G0 condition 3, fewer than 3 hosts means technical-note class unless a third host is found.
+- 2026-11-05: Author chose technical-note class (2 CPU hosts; G0 condition 3). Target: IEEE CAL 4-page letter (plan of record).
