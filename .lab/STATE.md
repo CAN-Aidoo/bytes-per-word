@@ -1,5 +1,5 @@
 # Project state
 Project: bytes-per-word · Class: standard · Author: Clement Aidoo · Started: 2026-11-05
-Phase: P0 Scoping · Next gate: G0
+Phase: P0 Scoping complete · Waiting for human decision at G0
 ## Summary
-<two or three lines, updated by project-coordinator after every phase>
+P0 done 2026-11-05: 17 sources mapped; novelty REVISE (near neighbour arXiv:2609.14864 is GPU-only and fitted per host); charter APPROVE-FOR-HUMAN with conditions; plan of record SEC 2027 or IEEE CAL, ISPASS stretch. Awaiting G0.
