@@ -73,6 +73,12 @@ decide that part of the question; the paper states which part is untested and ma
   model string, microcode, BIOS/firmware version (Host A: `dmidecode -s bios-version`; Host B: as visible), kernel, OS release,
   compiler versions, LLC size per `lscpu`, memory size, DIMM count/speed (Host A: `dmidecode -t memory`), SMT state, governor and
   boost state, THP setting, and (Host A) power source. Serial numbers are not recorded (personal data rule).
+- **Per-session re-check (Director feasibility amendment, 2026-11-05).** Host B is an ephemeral cloud container that may be placed on
+  different physical hardware between sessions. `experiments/host_facts.py` runs at the start of **every** session on both hosts. If the
+  CPU model string, microcode, LLC size or vCPU count differs from the first scored session, that host's constants (B1, B2, F1, F2) are
+  re-measured before any further cell, the change is logged as a dated deviation, and cells from different hardware are analysed as
+  different hosts (never pooled). Raw results and host facts are committed and pushed to the project's remote repository after every
+  session, so a reclaimed container loses nothing.
 - **OS requirement (UNVERIFIED for Host A).** All scripts assume Linux (sysfs topology, `/proc/vmstat`, `taskset`). Host A's OS is
   not recorded in any lab file. **Blocking for G1:** the Director confirms Host A runs Linux for scored runs, or this section is
   amended before G1 with Windows equivalents.
