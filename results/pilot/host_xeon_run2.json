@@ -1,0 +1,45 @@
+{
+ "kind": "PILOT host probe (not a scored measurement)",
+ "time_utc": "2026-11-05T16:27:36Z",
+ "host": "vm",
+ "os": "Linux-6.18.44-fc-v236-x86_64-with-glibc2.39",
+ "python": "3.13.16",
+ "numpy": "2.5.3",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "logical_cpus": 2,
+ "llc_mib_used": 260.0,
+ "array_mib": 1040.0,
+ "hypervisor": "KVM",
+ "governor": "",
+ "loadavg": [
+  0.1845703125,
+  0.04541015625,
+  0.01171875
+ ],
+ "blas": "include directory: /opt/_internal/cpython-3.13.14/lib/python3.13/site-packages/scipy_openblas64/include\n    lib directory: /opt/_internal/cpython-3.13.14/lib/python3.13/site-packages/scipy_openblas64/lib\n    name: scipy-openblas",
+ "copy_GBps": [
+  16.894255110863995,
+  16.51176661620977,
+  16.75449999115064,
+  16.7781984280525,
+  16.956333577580736
+ ],
+ "triad_GBps": [
+  11.827175853468928,
+  11.856624040074955,
+  11.830107927808596,
+  12.100918791020582,
+  11.863859051394053
+ ],
+ "fp32_matmul_GFLOPs": [
+  147.21801114853,
+  147.0611466499716,
+  125.95248024535013,
+  145.7597576846911,
+  148.3487252266132
+ ],
+ "copy_GBps_median": 16.7781984280525,
+ "triad_GBps_median": 11.856624040074955,
+ "fp32_GFLOPs_median": 147.0611466499716,
+ "flops_per_byte_ratio": 8.765014150988405
+}
