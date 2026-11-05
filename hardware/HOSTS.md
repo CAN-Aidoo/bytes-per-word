@@ -17,7 +17,13 @@ NumPy, single process, arrays of 1040 MiB (= 4 x LLC for Host B), 5 timed repeti
 |---|---|---|---|---|---|
 | B (Xeon VM) run 1 | 16.7 | 11.5 | 146.6 | 8.76 | `results/pilot/host_xeon_run1.json` |
 | B (Xeon VM) run 2 | 16.8 | 11.9 | 147.1 | 8.77 | `results/pilot/host_xeon_run2.json` |
-| A (laptop, native Windows) | **pending: human runs the probe** | | | | |
+| A (laptop, native Windows) run 1 (cold-start outlier, excluded from the median) | 5.6 | 4.1 | 37.8 | 6.8 | `results/pilot/host_laptop_run1.json` |
+| A run 2 | 7.5 | 4.9 | 39.6 | 5.3 | `results/pilot/host_laptop_run2.json` |
+| A run 3 | 7.3 | 4.7 | 38.1 | 5.3 | `results/pilot/host_laptop_run3.json` |
+| A run 4 | 7.0 | 4.6 | 29.6 | 4.2 | `results/pilot/host_laptop_run4.json` |
+| A run 5 | 7.5 | 4.7 | 35.0 | 4.7 | `results/pilot/host_laptop_run5.json` |
+
+Host A, 2026-11-05: native Windows, Python 3.13.14 (Store), NumPy 2.5.4 with bundled scipy-openblas 0.3.34, Balanced power plan, mains power, other programs closed. The protocol specifies two runs; five were done and all are disclosed. Run 1 is excluded from the median as a cold-start outlier (a judgement made after seeing it). Median of runs 2-5: copy ~7.3, triad ~4.7, matmul ~36.5 GFLOP/s. Spread (runs 2-5): copy ~7%, triad ~5%, matmul ~29%, far above Host B's under 1%, so Host A pilot values are rough. Indicative rho = (F_A/F_B)/(B_A/B_B) is about 0.47-0.64 (kept side of PROTOCOL §4.5, thin margin); not binding, as the binding constants are measured after G1.
 
 Run-to-run spread on Host B is under 1% for all three quantities.
 

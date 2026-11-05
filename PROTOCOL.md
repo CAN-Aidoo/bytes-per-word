@@ -150,7 +150,7 @@ One open dense family, three sizes, three quantisation levels: **Qwen3 0.6B, 1.7
 |---|---|---|---|---|
 | Qwen3-1.7B | `huggingface.co/ggml-org/Qwen3-1.7B-GGUF` | Apache-2.0 | Q4_K_M 1.28 GB, Q8_0 2.17 GB, F16 4.07 GB | SOURCED (WebFetch 2026-11-05: "License: apache-2.0") |
 | Qwen3-4B | `huggingface.co/ggml-org/Qwen3-4B-GGUF` | Apache-2.0 | Q4_K_M 2.5 GB, Q8_0 4.28 GB, F16 8.05 GB (F16 excluded: exceeds RAM) | SOURCED (WebFetch 2026-11-05: "License: apache-2.0") |
-| Qwen3-0.6B | `huggingface.co/ggml-org/Qwen3-0.6B-GGUF` | Apache-2.0 expected | Q4_K_M, Q8_0, F16 expected | **UNVERIFIED** (page fetch not permitted in this task). Data-curator/Director must confirm licence and available quants before G1. Rule fixed now: any listed quant missing from that repo is produced with `llama-quantize <F16 file> <out> <TYPE>` at the pinned commit, no imatrix, and hashed. |
+| Qwen3-0.6B | `huggingface.co/ggml-org/Qwen3-0.6B-GGUF` | Apache-2.0 (**SOURCED**: repo page shows "License: apache-2.0", read in the browser 2026-11-05) | Q4_K_M, Q8_0, F16 expected; **page lists Q4_0 429 MB, Q8_0 805 MB, BF16 and F16 1.51 GB each: Q4_K_M is NOT in the repo, so it is produced with `llama-quantize`** | Licence confirmed; quant list confirmed. Rule fixed now: any listed quant missing from that repo is produced with `llama-quantize <F16 file> <out> <TYPE>` at the pinned commit, no imatrix, and hashed. |
 
 Quantisation format sizes (SOURCED, `gguf-py/gguf/constants.py` lines 6960-6971 at the pinned commit): F16 2 bytes/weight; Q8_0 34
 bytes per 32 weights (8.5 bits/weight); Q4_K 144 bytes per 256 weights (4.5 bits/weight); Q6_K 210 bytes per 256 weights. Q4_K_M
@@ -182,7 +182,7 @@ Planned confirmatory grid: 8 files (3 sizes × 3 quants minus 4B-F16) × 2 hosts
 sizes above, the 0.6B files at Q4_K_M and Q8_0 are expected to fail rule 1 on Host B (UNVERIFIED until computed by `cells.py`).
 
 ### 3.6 Data splits
-- **Development**: `HuggingFaceTB/SmolLM2-360M-Instruct` GGUF at Q8_0 (Apache-2.0 expected; **UNVERIFIED**, data-curator confirms;
+- **Development**: `HuggingFaceTB/SmolLM2-360M-Instruct` GGUF at Q8_0 (Apache-2.0, **SOURCED**: both the model page and `HuggingFaceTB/SmolLM2-360M-Instruct-GGUF` show "License: apache-2.0"; the GGUF repo lists Q8_0, 386 MB; read in the browser 2026-11-05;
   fallback rule: the smallest Apache-2.0 or MIT dense GGUF ≥ 300 MB not in the grid or the confirmation set, chosen and hashed before
   first use). Used for V8, sentinel runs (§4.4) and script debugging only. Never scored. No grid or confirmation file may be run
   before G1 (G0 condition 3), and no pilot runs on any model are part of this draft.
@@ -507,12 +507,14 @@ approved with edits E1-E13.
 - G0 condition 1 (Na et al., IISWC 2024; LIMINAL): done. `lit/na2024_check.md`: DOES NOT ANSWER; Director-confirmed 2026-11-05.
 - `heldout/README.md`: written by the Director from Appendix H (identical copy; the guard that blocked it was fixed in plugin v0.2.1).
 - Remaining open items before G1:
-  (1) Host A probe JSON files from the human (`hardware/HOSTS.md`);
+  (1) Host A probe JSON files: DONE 2026-11-05 (5 runs, native Windows, mains; `results/pilot/host_laptop_run1..5.json`; see `hardware/HOSTS.md`;
+      pilot only, binding constants are measured after G1);
   (2) Host A operating system from the human: RESOLVED 2026-11-05: native Windows for all Host A scored, host-constant and validation
       measurements; WSL excluded (`.lab/QUESTION.md`; §3.1, §3.8). Host A disk: 13.4 GB free on the Windows drive (author-stated), enough
       for the grid's largest Host A file (Qwen3-4B Q8_0, 4.28 GB) plus the development model and build; held-out cell HA4 (≥ 12 GB rule,
       Appendix H) runs only if free space measured at that session's start is ≥ 12 GB;
-  (3) licences and quant availability for Qwen3-0.6B and SmolLM2-360M;
+  (3) licences and quant availability for Qwen3-0.6B and SmolLM2-360M: DONE 2026-11-05 (both apache-2.0; Qwen3-0.6B repo has no Q4_K_M, made with
+      `llama-quantize` per §3.5);
   (4) llama.cpp licence read;
   (5) hardware/experiment feasibility sign-off of §3, §6, §8 (Director will do this in a technical note).
 
