@@ -128,8 +128,7 @@ reported, not decisive.
 
 ## Multiplicity
 
-The joint positive claim is Q1(Host A) ∧ Q1(Host B) ∧ Q2 ∧ Q3 (if kept), plus Q1 on the confirmation set after G2, and, if V7 fails,
-Q3 with both B1 and B2. This is an **intersection-union** claim: a false joint claim requires at least one false component, so
+The joint positive claim is Q1(Host A) ∧ Q1(Host B) ∧ Q2 ∧ Q3 (if kept), plus Q1 on the confirmation set after G2 (a V7 failure only labels the Q3 outcome "benchmark-dependent"; it adds no component; Director decision 2026-11-05, pending statistician re-confirmation). This is an **intersection-union** claim: a false joint claim requires at least one false component, so
 P(joint pass | some component null) ≤ that component's level ≤ 0.05 (S8). No Holm or Bonferroni correction applies; one would only
 cost power. Q1 components are fixed point thresholds without an α. F2 and B2 variants are robustness reports, not tests (§5.4 kept).
 The **refutation** side is a union of point rules (mean Δ ≤ 0, MAPE > 20%) without α control; its rate under the bytes law is reported

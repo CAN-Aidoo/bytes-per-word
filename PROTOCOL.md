@@ -3,7 +3,7 @@
 Status: DRAFT until gate G1 is approved. After G1 this file is append-only: changes go in `## Deviations` with a date and reason.
 Author (accountable): Clement Aidoo · Project class: note (technical note, two CPU hosts; G0 condition 3; `.lab/QUESTION.md` 2026-11-05) · Frozen at commit: <filled by gate.py>
 Drafted by: protocol-architect, 2026-11-05. Review status: sections 4-5 signed by the statistician in `analysis/POWER.md`
-(2026-11-05, edits E1-E13 applied); sections 3, 6, 8 await the Director's feasibility sign-off; open items before G1 are listed in §10.
+(2026-11-05, edits E1-E13 applied); sections 3, 6, 8 signed off by the Director (`.lab/gates/P1_feasibility.md`, 2026-11-05); open items before G1 are listed in §10.
 
 Evidence tags used below: **SOURCED** (opened in this task or in a cited lab file, with location), **MEASURED** (lab file),
 **UNVERIFIED** (could not be opened; must be checked by the named person before G1), **JUDGEMENT** (a choice we make, with reason).
@@ -295,7 +295,7 @@ bytes) is made.
 Justification from the 20% threshold: both predictors are judged with a ±20% tolerance. A measured ratio can lie inside the band of
 both predictions only if they are closer than (1 + 0.20)/(1 − 0.20) = 1.5. At ρ ≥ 1.5 no measured value can be "within 20%" of both, so
 the test can separate them; below it the outcome could support both. The rule is fixed before any Host A host constant exists (Host
-A's pilot probe is pending per `hardware/HOSTS.md`; Host B's pilot is known and is irrelevant to a threshold on a ratio). The same
+A's pilot probe was done 2026-11-05 after this rule was written: 5 runs instead of the 2 specified, run 1 excluded from the median as a cold-start outlier by a judgement made after seeing it, all five disclosed in `hardware/HOSTS.md`; the pilot used single-thread NumPy with 256 MiB arrays, so it is indicative only and is NOT the binding B1/F1; Host B's pilot is known and is irrelevant to a threshold on a ratio). The same
 rule is applied to F2 separately: if ρ₂ fails, the F2 comparison in Q3 is dropped and this is reported. B2 (Triad) enters only V7.
 
 Second drop condition (metadata only, before any model run): if `experiments/CELLS.csv` lists
@@ -359,7 +359,7 @@ pairs with R_B < 1.5 removed. Power and precision basis: `analysis/power.py`.
 ### 5.4 Q3 (cross-machine-ratio test; only if kept by §4.5)
 - Units: files completed and eligible on both hosts. R = y_B / y_A; R_B = B1_B / B1_A; R_F = F1_B / F1_A. e_B, e_F, Δh as in 5.3,
   same decision rule. Robustness: repeated with F2 (if ρ₂ passes) and with B2; if bytes loses against F2 or with B2 the paper must say
-  so (claim template T-narrow, §9), though only the F1/B1 comparison is the refutation test.
+  so (claim template T-narrow, §9), though only the F1/B1 comparison is the refutation test. A V7 failure (§6) adds the "benchmark-dependent" label to the Q3 outcome.
 Scope: R_B and R_F are one constant pair for all files; files replicate over models, not
 machines, so a Q3 result is stated for these two hosts only.
 
@@ -400,7 +400,7 @@ fails, no substitute is chosen: Q1 is not evaluable on either host (null); Q2 an
 | V4 | D computation: on the development model, script n_bytes per tensor equals gguf-py's tensor `n_bytes` for every tensor; and file size − Σ all tensor bytes ≤ 1% of file size | exact; ≤ 1% | tensor table vs file (remaining bytes are header, metadata, alignment) |
 | V5 | DRAM plateau: B1 at 4 × LLC vs 8 × LLC per host | ≤ 5% difference, else LLC multiple → 8 (§3.5) | detects cache retention of a streaming pattern (relevant to Host B's 260 MiB L3) |
 | V6 | B1 plausibility, Host A | 0.50 × 51.2 ≤ B1_A ≤ 51.2 GB/s | upper: theoretical peak (physical bound); lower: JUDGEMENT, below half of dual-channel peak indicates a misconfiguration (thread placement, single-channel memory) |
-| V7 | Two bandwidth benchmarks agree on the host ratio: (B1_A/B1_B) vs (B2_A/B2_B) | within 15% | if they disagree more, Q3 must be won with both B1 and B2 (pre-registered consequence) |
+| V7 | Two bandwidth benchmarks agree on the host ratio: (B1_A/B1_B) vs (B2_A/B2_B) | within 15% | if they disagree more, Q3 is still decided by the B1/F1 test of §5.4 alone; B2 is not a second test. Both B1 and B2 results are reported, and the Q3 outcome, whether confirmation or refutation, is labelled "benchmark-dependent" and no cross-machine claim is made in either direction. V7 is evaluated on the validation-phase constants before any model run, so the label cannot be chosen after the Q3 result is seen (decided by the Director after a statistician/red-team debate, 2026-11-05) |
 | V8 | Repeatability, development model, tg128, 5 rounds per host | between-round CV ≤ 1.5% | gives P(target met by 8 rounds) = 0.989 (`analysis/POWER.md` Table R); otherwise find the noise source first |
 | V9 | Host constants stable: B1, B2, F1 over 5 process runs | B1: CV ≤ 1.0%; B2, F1: CV ≤ 3% | constants enter every prediction |
 | V10 | Residency: resident memory after load ≥ 0.95 × file size with `-lm none` on the development model (Host B: RSS; Host A: working set, `memory_info().rss` = WorkingSetSize); no paging during a round (Host B: `pswpin` delta = 0; Host A: `\Memory\Pages Input/sec` = 0 at every sample, or the §3.8 fallback) | as stated | DRAM-resident and no swap |
@@ -463,8 +463,7 @@ about prefill, long context beyond depth 1024, or energy.
   settings are restored at session end (Update un-paused, exclusions removed); never disable Defender.
 - **Hardware safety**: laptop on a hard surface with vents clear, mains power; stop the session if any CPU sensor reports ≥ 90 °C or
   the OS logs thermal throttling (JUDGEMENT; normal operation, no electrical modification).
-- **Dual use**: none identified (performance measurement of public open-weight models). **Licences**: models Apache-2.0 (0.6B and
-  development model UNVERIFIED until checked); llama.cpp MIT [SOURCED: `LICENSE` at commit `3259ab6e…`, read by the Director 2026-11-05: "MIT License", "Copyright (c) 2023-2026 The ggml authors"];
+- **Dual use**: none identified (performance measurement of public open-weight models). **Licences**: models Apache-2.0 (all four read 2026-11-05, §3.5); llama.cpp MIT [SOURCED: `LICENSE` at commit `3259ab6e…`, read by the Director 2026-11-05: "MIT License", "Copyright (c) 2023-2026 The ggml authors"];
   STREAM under its own licence: B1 is labelled a STREAM variant, B2 results follow STREAM run rules or are labelled. No model
   weights are redistributed; `experiments/MODELS.csv` gives repo, revision and hash.
 - **No secrets or personal data** in any file (no serial numbers, no user names in logs).
@@ -504,7 +503,7 @@ about prefill, long context beyond depth 1024, or energy.
 approved with edits E1-E13.
 - §6 tightening (E10: V8 between-round CV ≤ 1.5%, V9 B1 CV ≤ 1.0%): feasibility reviewed and accepted by the Director, 2026-11-05
   (Host B pilot spread under 1%, `hardware/HOSTS.md`; Host A is bare metal).
-- G0 condition 1 (Na et al., IISWC 2024; LIMINAL): done. `lit/na2024_check.md`: DOES NOT ANSWER; Director-confirmed 2026-11-05.
+- G0 condition 1 (Na et al., IISWC 2024; LIMINAL): done. `lit/na2024_check.md`: DOES NOT ANSWER; Director-confirmed 2026-11-05. Confidence moderate: based on summariser reads of the open NSF PAR author manuscript (https://par.nsf.gov/servlets/purl/10576248, a file download that the Browser pane did not open) and slides, not a verbatim full read. Accepted on that basis by the Director under the author's standing delegation (2026-11-05); the paper must state this limit, and a full read by the author before G3 is recommended.
 - `heldout/README.md`: written by the Director from Appendix H (identical copy; the guard that blocked it was fixed in plugin v0.2.1).
 - Remaining open items before G1:
   (1) Host A probe JSON files: DONE 2026-11-05 (5 runs, native Windows, mains; `results/pilot/host_laptop_run1..5.json`; see `hardware/HOSTS.md`;
@@ -523,7 +522,7 @@ approved with edits E1-E13.
 ## Appendix H. Held-out confirmation set (definition only; authoritative copy)
 Purpose: one-shot confirmation of Q1 (per-host bytes-predictor MAPE ≤ 20%) on cells nobody has downloaded, run or analysed during
 development. η and η′ are NOT recomputed (constants from the calibration cell, `results/frozen_constants.json`). Two kinds of novelty:
-a quantisation level never used in the grid (Q6_K) and a model never used (different architecture: SmolLM2, Llama-type).
+a quantisation level never used in the grid (Q6_K) and a model never used (SmolLM2-1.7B, a different model family from the grid's Qwen3). Wording limit (Director decision 2026-11-05, after the charter steward's flag): the development model is SmolLM2-360M, so the Llama-type architecture is not unseen; the novelty claimed is the model, its size and its quantisation level, not a new architecture.
 
 | ID | Host | Model file | How obtained (after G2 only) | Condition |
 |---|---|---|---|---|

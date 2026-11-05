@@ -6,7 +6,7 @@ Nothing else may exist in this directory before gate G2 is approved.
 ## Appendix H. Held-out confirmation set (definition only; authoritative copy)
 Purpose: one-shot confirmation of Q1 (per-host bytes-predictor MAPE ≤ 20%) on cells nobody has downloaded, run or analysed during
 development. η and η′ are NOT recomputed (constants from the calibration cell, `results/frozen_constants.json`). Two kinds of novelty:
-a quantisation level never used in the grid (Q6_K) and a model never used (different architecture: SmolLM2, Llama-type).
+a quantisation level never used in the grid (Q6_K) and a model never used (SmolLM2-1.7B, a different model family from the grid's Qwen3). Wording limit (Director decision 2026-11-05, after the charter steward's flag): the development model is SmolLM2-360M, so the Llama-type architecture is not unseen; the novelty claimed is the model, its size and its quantisation level, not a new architecture.
 
 | ID | Host | Model file | How obtained (after G2 only) | Condition |
 |---|---|---|---|---|
