@@ -7,17 +7,11 @@ Charter steward verdict: **APPROVE-FOR-HUMAN with conditions** (`.lab/gates/G0_c
 Open alerts: AMBER 2026-11-05 literature-scout, near-neighbour prior work arXiv:2609.14864 (addressed by the revision below).
 
 ## Question
-**Original** (.lab/QUESTION.md): is CPU-only small-LLM token rate predicted by bytes moved per token over measured memory bandwidth,
-rather than by FLOPs, across model sizes, quantisation levels and machines?
+**Original** (verbatim from `.lab/QUESTION.md`):
+> On commodity CPUs without a GPU, is the token-generation rate of small open language models predicted by the bytes that must be moved per generated token divided by measured memory bandwidth (a "bytes per word" law), rather than by arithmetic FLOPs, across model sizes, quantisation levels and machines?
 
-**Revised (novelty analyst, recommended for approval; verbatim from G0_novelty.md):**
-"On CPU-only llama.cpp decode (batch 1, DRAM-resident dense GGUF models, no GPU/iGPU offload), does a predictor with no per-host and
-no per-quantisation fitting, tok/s = eta * B_meas / D (D = bytes read per generated token from GGUF metadata plus KV cache, B_meas =
-sustained read bandwidth measured by a pre-registered STREAM-type benchmark, eta one constant frozen on a single calibration cell of one
-machine), predict held-out tok/s on every other machine, model size and quantisation level within a pre-registered MAPE of 20%, and
-beat an equally constrained FLOPs predictor (tok/s = eta' * F_meas / 2P_active) on both the quantisation-ratio and the
-cross-machine-ratio tests; it is refuted if held-out MAPE exceeds 20% on any host, or if the FLOPs predictor is not worse on either
-ratio test."
+**Revised (novelty analyst, recommended for approval; verbatim from `.lab/gates/G0_novelty.md`):**
+> On CPU-only llama.cpp decode (batch 1, DRAM-resident dense GGUF models, no GPU/iGPU offload), does a predictor with no per-host and no per-quantisation fitting, tok/s = η · B_meas / D (D = bytes read per generated token from GGUF metadata plus KV cache, B_meas = sustained read bandwidth measured by a pre-registered STREAM-type benchmark, η one constant frozen on a single calibration cell of one machine), predict held-out tok/s on every other machine, model size and quantisation level within a pre-registered MAPE of 20%, and beat an equally constrained FLOPs predictor (tok/s = η′ · F_meas / 2P_active) on both the quantisation-ratio and the cross-machine-ratio tests; it is refuted if held-out MAPE exceeds 20% on any host, or if the FLOPs predictor is not worse on either ratio test.
 
 - **Expected answer:** yes on the quantisation and cross-host ratio tests; a single eta may degrade on hosts whose runtimes reach a
   lower fraction of peak bandwidth (prior work reports 72-78% for the best CPU runtimes).
