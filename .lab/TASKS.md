@@ -7,4 +7,4 @@
 | T4 | P0 | G0 packet and charter verdict | research-director, charter-steward | gates.md checklist complete | done |
 | T5 | P1 | Na et al. IISWC 2024 + LIMINAL novelty check (G0 condition 1) | literature-scout | each paper has a verdict with quotes, or a human download link | done: DOES NOT ANSWER (Director confirmed) |
 | T6 | P1 | PROTOCOL.md + held-out definition; statistician signs analysis/POWER.md | protocol-architect, statistician | nine sections; every G0 condition-4 item fixed and justified | done (E1-E13 applied); §10 open items remain |
-| T7 | P1 | hardware/HOSTS.md: host facts and discrimination check | research-director | specs with sources; ratio argument; LLC rule | waiting on human: laptop probe |
+| T7 | P1 | hardware/HOSTS.md + feasibility sign-off (.lab/gates/P1_feasibility.md) | research-director | specs with sources; ratio argument; LLC rule | done except human items: probe, OS, disk, licences, repo |

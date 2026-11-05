@@ -397,7 +397,7 @@ about prefill, long context beyond depth 1024, or energy.
 - **Hardware safety**: laptop on a hard surface with vents clear, mains power; stop the session if any CPU sensor reports ≥ 90 °C or
   the OS logs thermal throttling (JUDGEMENT; normal operation, no electrical modification).
 - **Dual use**: none identified (performance measurement of public open-weight models). **Licences**: models Apache-2.0 (0.6B and
-  development model UNVERIFIED until checked); llama.cpp MIT (UNVERIFIED in this task, licence file to be read at the pinned commit);
+  development model UNVERIFIED until checked); llama.cpp MIT [SOURCED: `LICENSE` at commit `3259ab6e…`, read by the Director 2026-11-05: "MIT License", "Copyright (c) 2023-2026 The ggml authors"];
   STREAM under its own licence: B1 is labelled a STREAM variant, B2 results follow STREAM run rules or are labelled. No model
   weights are redistributed; `experiments/MODELS.csv` gives repo, revision and hash.
 - **No secrets or personal data** in any file (no serial numbers, no user names in logs).
