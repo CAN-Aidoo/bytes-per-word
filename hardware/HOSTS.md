@@ -17,7 +17,7 @@ NumPy, single process, arrays of 1040 MiB (= 4 x LLC for Host B), 5 timed repeti
 |---|---|---|---|---|---|
 | B (Xeon VM) run 1 | 16.7 | 11.5 | 146.6 | 8.76 | `results/pilot/host_xeon_run1.json` |
 | B (Xeon VM) run 2 | 16.8 | 11.9 | 147.1 | 8.77 | `results/pilot/host_xeon_run2.json` |
-| A (laptop) | **pending: human runs the probe** | | | | |
+| A (laptop, native Windows) | **pending: human runs the probe** | | | | |
 
 Run-to-run spread on Host B is under 1% for all three quantities.
 
@@ -33,10 +33,17 @@ ratio differ: if B_A/B_B ≈ F_A/F_B, both predictors predict the same cross-hos
 Host B's L3 is 260 MiB. Any model whose weights are not several times larger than 260 MiB may be partly cache-resident on Host B,
 which would violate the approved question's "DRAM-resident" condition. PROTOCOL.md sets the minimum multiple.
 
-## Probe instructions for the human (Host A)
-Plug the laptop into mains power, close other programs, then in the repository folder:
+## Probe instructions for the human (Host A, native Windows; decided 2026-11-05, WSL excluded)
+Host A's Ubuntu is WSL (`systemd-detect-virt` = wsl), which is virtualised, so all Host A measurements run in **native Windows**.
+1. Get the repository onto the Windows drive (WSL already has git; it asks for your GitHub login, use a personal access token):
+   in the WSL Ubuntu terminal: `git clone https://github.com/CAN-Aidoo/bytes-per-word "/mnt/c/Users/Clement Nana Aidoo/bytes-per-word"`
+2. Close WSL (`wsl --shutdown` in Windows Command Prompt), plug into mains, close other programs.
+3. In Windows Command Prompt:
 ```
-python3 hardware/host_probe.py --out results/pilot/host_laptop_run1.json --llc-mib 8
-python3 hardware/host_probe.py --out results/pilot/host_laptop_run2.json --llc-mib 8
+cd "C:\Users\Clement Nana Aidoo\bytes-per-word"
+py -m pip install numpy psutil
+py hardware\host_probe.py --out results\pilot\host_laptop_run1.json --llc-mib 8
+py hardware\host_probe.py --out results\pilot\host_laptop_run2.json --llc-mib 8
 ```
-Needs Python 3 with NumPy (`pip install numpy`). Takes about a minute. Send both JSON files (or commit them).
+4. Commit and push from WSL (`cd "/mnt/c/Users/Clement Nana Aidoo/bytes-per-word" && git add results/pilot && git commit -m "Pilot: laptop host probe (Windows)" && git push`), or paste the two JSON outputs.
+pip NumPy wheels bundle OpenBLAS; do not use WSL's apt NumPy (reference BLAS) for anything.

@@ -7,11 +7,49 @@ and records host facts. The pre-registered benchmarks for scored runs are named 
 that the hosts differ in their FLOP/s-to-bandwidth ratio (the cross-machine discrimination condition).
 
 Usage:  python3 hardware/host_probe.py [--out results/pilot/host_<name>.json] [--llc-mib N] [--reps 7]
-On the laptop: plug in to mains power, close other programs, then run it twice and send both JSON files.
+On the laptop (native Windows): plug in to mains power, close other programs, then run it twice and send both JSON files:
+    py -m pip install numpy psutil
+    py hardware\\host_probe.py --out results\\pilot\\host_laptop_run1.json --llc-mib 8
 """
 import argparse, json, os, platform, statistics, subprocess, sys, time
 
 import numpy as np
+
+
+def loadavg():
+    """Unix load average; on Windows, the system-wide CPU percent over 1 s (psutil if installed), else None."""
+    if hasattr(os, "getloadavg"):
+        return os.getloadavg()
+    try:
+        import psutil
+        return {"cpu_percent_1s": psutil.cpu_percent(interval=1.0)}
+    except Exception:
+        return None
+
+
+def win_cpu():
+    if platform.system() != "Windows":
+        return ""
+    return sh('powershell -NoProfile -Command "(Get-CimInstance Win32_Processor).Name"')
+
+
+def win_l3_mib():
+    if platform.system() != "Windows":
+        return None
+    out = sh('powershell -NoProfile -Command "(Get-CimInstance Win32_Processor).L3CacheSize"')
+    try:
+        return float(out.split()[0]) / 1024  # KiB -> MiB
+    except Exception:
+        return None
+
+
+def power_source():
+    try:
+        import psutil
+        b = psutil.sensors_battery()
+        return None if b is None else ("mains" if b.power_plugged else "battery")
+    except Exception:
+        return None
 
 
 def sh(cmd):
@@ -22,6 +60,9 @@ def sh(cmd):
 
 
 def llc_mib_guess():
+    w = win_l3_mib()
+    if w:
+        return w
     out = sh("lscpu | grep 'L3 cache'")
     try:
         num = float(out.split(":")[1].split()[0])
@@ -55,6 +96,18 @@ def gflops(reps, size=2048):
     return out[1:]
 
 
+def blas_info():
+    import io, contextlib
+    buf = io.StringIO()
+    try:
+        with contextlib.redirect_stdout(buf):
+            np.show_config()
+    except Exception:
+        return "unknown"
+    lines = [l.strip() for l in buf.getvalue().splitlines() if any(k in l.lower() for k in ("openblas", "mkl", "accelerate", "name:"))]
+    return " | ".join(lines[:4])
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=None)
@@ -69,11 +122,12 @@ def main():
         "kind": "PILOT host probe (not a scored measurement)",
         "time_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "host": platform.node(), "os": platform.platform(), "python": sys.version.split()[0], "numpy": np.__version__,
-        "cpu": sh("lscpu | grep 'Model name' | cut -d: -f2").strip() or platform.processor(),
+        "cpu": win_cpu() or sh("lscpu | grep 'Model name' | cut -d: -f2").strip() or platform.processor(),
         "logical_cpus": os.cpu_count(), "llc_mib_used": llc, "array_mib": array_bytes / 2**20,
         "hypervisor": sh("lscpu | grep -i 'Hypervisor vendor' | cut -d: -f2").strip() or "none reported",
-        "governor": sh("cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor"), "loadavg": os.getloadavg(),
-        "blas": sh(f"{sys.executable} -c \"import numpy; numpy.show_config()\" 2>/dev/null | grep -i -m3 -E 'name|openblas|mkl'"),
+        "governor": sh("cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor") if platform.system() != "Windows" else sh("powercfg /getactivescheme"),
+        "loadavg": loadavg(), "power_source": power_source(),
+        "blas": blas_info(),
         "copy_GBps": copy, "triad_GBps": triad, "fp32_matmul_GFLOPs": gf,
         "copy_GBps_median": statistics.median(copy), "triad_GBps_median": statistics.median(triad),
         "fp32_GFLOPs_median": statistics.median(gf),
