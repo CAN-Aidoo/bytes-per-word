@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "<Title>"
+authors:
+  - family-names: "<Family>"
+    given-names: "<Given>"
+    affiliation: "CANLABS"
+version: "0.1.0"
+date-released: "YYYY-MM-DD"
+license: MIT
+repository-code: "https://github.com/CAN-Aidoo/<repo>"
+# doi: filled by /lab-release finalise
