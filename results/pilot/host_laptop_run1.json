@@ -1,0 +1,50 @@
+{
+ "kind": "PILOT host probe (not a scored measurement)",
+ "time_utc": "2026-11-05T20:52:41Z",
+ "host": "CAN",
+ "os": "Windows-11-10.0.26200-SP0",
+ "python": "3.13.14",
+ "numpy": "2.5.4",
+ "cpu": "AMD Ryzen 5 5500U with Radeon Graphics",
+ "logical_cpus": 12,
+ "llc_mib_used": 8.0,
+ "array_mib": 256.0,
+ "hypervisor": "none reported",
+ "governor": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)",
+ "loadavg": {
+  "cpu_percent_1s": 20.5
+ },
+ "power_source": "mains",
+ "blas": "include directory: C:/Users/runneradmin/AppData/Local/Temp/cibw-run-_ivn3drs/cp313-win_amd64/build/venv/Lib/site-packages/scipy_openblas64/include | lib directory: C:/Users/runneradmin/AppData/Local/Temp/cibw-run-_ivn3drs/cp313-win_amd64/build/venv/Lib/site-packages/scipy_openblas64/lib | name: scipy-openblas | openblas configuration: OpenBLAS 0.3.34.106.0  USE64BITINT DYNAMIC_ARCH NO_AFFINITY",
+ "copy_GBps": [
+  5.79147522875019,
+  5.052617376905033,
+  5.56244922656407,
+  5.567023186988762,
+  5.69978089318248,
+  5.801764419827644,
+  5.572402729372135
+ ],
+ "triad_GBps": [
+  4.26310315775823,
+  4.098160514003933,
+  3.880295623860235,
+  4.036218259295062,
+  4.176170285587558,
+  4.302410466106158,
+  3.7427956482501443
+ ],
+ "fp32_matmul_GFLOPs": [
+  39.11707041422141,
+  39.07167269424294,
+  37.81148867033029,
+  38.15214557264015,
+  35.96443551630231,
+  33.96086797364885,
+  32.560497379600484
+ ],
+ "copy_GBps_median": 5.572402729372135,
+ "triad_GBps_median": 4.098160514003933,
+ "fp32_GFLOPs_median": 37.81148867033029,
+ "flops_per_byte_ratio": 6.785491018268642
+}
