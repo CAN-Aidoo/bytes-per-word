@@ -2,9 +2,8 @@
 
 Status: DRAFT until gate G1 is approved. After G1 this file is append-only: changes go in `## Deviations` with a date and reason.
 Author (accountable): Clement Aidoo · Project class: note (technical note, two CPU hosts; G0 condition 3; `.lab/QUESTION.md` 2026-11-05) · Frozen at commit: <filled by gate.py>
-Drafted by: protocol-architect, 2026-11-05. Review status: sections 4-5 **await the statistician's sign-off in `analysis/POWER.md`**
-(not yet written; see §10); sections 3, 6, 8 await hardware-lead / experiment-lead feasibility sign-off. G1 must not be requested
-until both sign-offs exist.
+Drafted by: protocol-architect, 2026-11-05. Review status: sections 4-5 signed by the statistician in `analysis/POWER.md`
+(2026-11-05, edits E1-E13 applied); sections 3, 6, 8 await the Director's feasibility sign-off; open items before G1 are listed in §10.
 
 Evidence tags used below: **SOURCED** (opened in this task or in a cited lab file, with location), **MEASURED** (lab file),
 **UNVERIFIED** (could not be opened; must be checked by the named person before G1), **JUDGEMENT** (a choice we make, with reason).
@@ -44,8 +43,8 @@ or per-format calibration is required, and the paper reports which regime breaks
 reported with the same prominence.
 
 **Null / partial result.** Any of: the cross-machine test is dropped by the §4.5 rule (the two hosts' bandwidth and FLOP/s ratios
-are too similar to discriminate); a ratio test is inconclusive (point estimate favours bytes but the 95% interval of the paired
-difference includes 0); fewer than 75% of a host's planned eligible evaluation cells complete (§5.7). Meaning: the data do not
+are too similar to discriminate); a ratio test is inconclusive (point estimate favours bytes but the 95% interval of the
+paired difference includes 0 or the exact sign-flip p > 0.05); fewer than 75% of a host's planned eligible evaluation cells complete (§5.7). Meaning: the data do not
 decide that part of the question; the paper states which part is untested and makes no claim on it.
 
 ---
@@ -55,7 +54,7 @@ decide that part of the question; the paper states which part is untested and ma
 | ID | Question | Hypothesis or "descriptive" | Primary outcome | Unit | Direction / decision rule | Refutation criterion | Competing hypothesis |
 |---|---|---|---|---|---|---|---|
 | Q1 | Does the frozen-η bytes predictor transfer within 20%? | H1: per-host MAPE of tok/s = η·B1/D is ≤ 20% on every host | Per-host MAPE of the bytes predictor over evaluation cells (and, after G2, over confirmation cells) | % | Lower is better; pass iff point MAPE ≤ 20.0% on Host A **and** Host B (§5.2) | Point MAPE > 20.0% on either host, in evaluation or confirmation cells | H0-transfer: η is host- or format-specific (per-host fitting needed, as in Qiu et al.) so MAPE > 20% off the calibration host |
-| Q2 | Across quantisation levels, do bytes or FLOPs predict the speed ratio? | H2: bytes predictor has lower log-ratio error than FLOPs predictor | Mean paired difference Δq = e_F − e_B of absolute log-ratio errors over quantisation pairs (§5.3) | dimensionless (natural log) | Bytes wins iff mean Δq > 0 and the one-sided 95% bootstrap lower bound > 0 | Mean Δq ≤ 0, or lower bound ≤ 0 with mean Δq ≤ 0 (inconclusive if mean > 0 but bound ≤ 0: null, §1) | HF-q: decode is compute-bound (dequantisation/arithmetic), so tok/s is ~independent of format at fixed P (ratio ≈ 1); also HDQ: partially compute-bound for high-dequant formats only |
+| Q2 | Across quantisation levels, do bytes or FLOPs predict the speed ratio? | H2: bytes predictor has lower log-ratio error than FLOPs predictor | Mean paired difference Δq = e_F − e_B of absolute log-ratio errors over quantisation pairs (§5.3) | dimensionless (natural log) | Bytes wins iff mean Δq > 0, exact sign-flip p ≤ 0.05 and the one-sided 95% bootstrap lower bound > 0 (§5.3) | Mean Δq ≤ 0 (inconclusive if mean > 0 but the bound ≤ 0 or p > 0.05: null, §1) | HF-q: decode is compute-bound (dequantisation/arithmetic), so tok/s is ~independent of format at fixed P (ratio ≈ 1); also HDQ: partially compute-bound for high-dequant formats only |
 | Q3 | Across the two machines, do bytes or FLOPs predict the speed ratio of identical files? | H3: bytes predictor has lower log-ratio error than FLOPs predictor | Mean paired difference Δh = e_F − e_B over files eligible on both hosts (§5.4) | dimensionless (natural log) | As Q2; only run if the §4.5 drop rule keeps the test | As Q2 | HF-h: tok/s scales with measured FLOP/s across hosts (F_B/F_A), not with read bandwidth (B_B/B_A) |
 | Q4 | Where does the predictor fail? | descriptive (exploratory) | Per-format η_q = tok/s·D/B1 ratios; thread-scaling curve; depth-1024 error; cache-regime cells | dimensionless; tok/s | None (no test; labelled exploratory) | n/a | n/a |
 
@@ -218,8 +217,8 @@ exactly as the question defines; attention-score FLOPs are excluded from the pre
 
 ### 4.3 Calibration cell (G0 condition 4: "excluded calibration cell")
 **Host A, Qwen3-1.7B Q8_0, depth 0, T_A = 6.** η = tok/s_cal × D_cal / B1_A; η′ = tok/s_cal × 2 P_active,cal / F1_A; η′₂ likewise with
-F2_A. Computed once by `analysis/analyse.py` from that cell only, written to `results/frozen_constants.json`, and excluded from
-every scored error, MAPE, ratio test and figure statistic. Justification (JUDGEMENT): middle size and middle (low-dequant) format,
+F2_A. Computed once by `analysis/analyse.py` from that cell only, written to `results/frozen_constants.json`, and excluded from every APE, MAPE and Q1 statistic. It enters the
+Q2 and Q3 ratio units like any other cell, because η and η′ cancel in every ratio (`analysis/POWER.md`, Unit and metric). Justification (JUDGEMENT): middle size and middle (low-dequant) format,
 so neither extreme of the grid sets the constant; Host A is the bare-metal host with the lower noise. No other cell may influence
 η or η′; refitting is forbidden (a quant- or host-dependent η is reported as a finding, §9).
 
@@ -246,13 +245,18 @@ the test can separate them; below it the outcome could support both. The rule is
 A's pilot probe is pending per `hardware/HOSTS.md`; Host B's pilot is known and is irrelevant to a threshold on a ratio). The same
 rule is applied to F2 separately: if ρ₂ fails, the F2 comparison in Q3 is dropped and this is reported. B2 (Triad) enters only V7.
 
-### 4.6 Repetitions, randomisation and blocking (provisional until `analysis/POWER.md` signs)
+Second drop condition (metadata only, before any model run): if `experiments/CELLS.csv` lists
+fewer than 5 files eligible on both hosts, Q3 is dropped in the same way, because no exact one-sided 5% test can pass with fewer than
+5 units (`analysis/POWER.md` S4). If it lists fewer than 5 Q2 pairs, this is reported before any model run: Q2 then cannot pass, the
+positive claim is unreachable, and continuing requires a dated deviation.
+
+### 4.6 Repetitions, randomisation and blocking (signed: `analysis/POWER.md`, 2026-11-05)
 - **Unit**: cell. **Round**: one fresh `llama-bench` process for the cell (warm-up + 5 timed repetitions of tg128); round value = mean
   of the 5 repetitions. **Rounds per cell: 5.** Cell value = mean of round values.
-- **Precision target** (JUDGEMENT, pending statistician): 95% CI half-width of the cell mean ≤ 2% of the cell mean (one tenth of the
-  20% threshold, so measurement noise moves a cell's APE by at most about 2 percentage points). If after 5 rounds a cell misses it,
-  up to 3 more rounds are added (max 8), a rule that uses only the cell's variance, never the predictor error; a cell still missing
-  it is flagged "imprecise" and reported.
+- **Precision target** (signed in `analysis/POWER.md`): h = t(0.975, n−1) · s / √n over the n round values, h ≤ 2.0% of the cell
+  mean. If after 5 rounds a cell misses it, 3 more rounds are added together (one look; max 8), a rule that uses only the cell's
+  variance, never the predictor error; a cell still missing it is flagged "imprecise", scored, and reported.
+- **Calibration cell**: 10 rounds, fixed (no extension rule), because its noise enters every prediction (`analysis/POWER.md` S3).
 - **Host B (all files fit its 28 GB free disk)**: rounds are interleaved: round r runs every eligible cell once in a random order
   (permutation from `numpy.random.default_rng(20261105 + r)`), so drift and neighbour load are spread over cells.
 - **Host A (disk forces one file at a time)**: blocked by file; file order is a random permutation (seed 20261105); within a file
@@ -269,11 +273,14 @@ rule is applied to F2 separately: if ρ₂ fails, the F2 comparison in Q3 is dro
 
 ---
 
-## 5. Analysis plan (provisional until `analysis/POWER.md` signs)
+## 5. Analysis plan (signed: `analysis/POWER.md`, 2026-11-05)
 
 ### 5.1 Common
 - APE per cell c: |ŷ_c − y_c| / y_c, with y_c the cell value (§4.6). All computations in `analysis/analyse.py`, deterministic.
 - Bootstrap: 10,000 resamples, percentile intervals, seed 20261108, resampling the stated unit with replacement.
+- Secondary Q1 metric (reported, not decisive): per-host mean |ln(ŷ/y)|. Ratio-test p-values:
+exact one-sided sign-flip test over all 2^n sign vectors of the unit Δ values. Q2 sensitivity: cluster bootstrap over (host, size);
+pairs with R_B < 1.5 removed. Power and precision basis: `analysis/power.py`.
 
 ### 5.2 Q1 (MAPE)
 - Per host h: MAPE_h = mean APE over that host's completed eligible evaluation cells (Host A excludes the calibration cell).
@@ -288,18 +295,24 @@ rule is applied to F2 separately: if ρ₂ fails, the F2 comparison in Q3 is dro
 ### 5.3 Q2 (quantisation-ratio test)
 - Units: quantisation pairs (C1, C2) per (host, size) with both cells completed and eligible. For a pair (lower-bit a, higher-bit b):
   R = y_a / y_b; R_B = D_b / D_a; R_F = 1. Errors e_B = |ln(R / R_B)|, e_F = |ln R|; Δq = e_F − e_B.
-- Decision: bytes beats FLOPs iff mean Δq > 0 and the one-sided 95% percentile-bootstrap lower bound (resampling pairs) > 0.
+- Decision: bytes beats FLOPs iff mean Δq > 0, the exact one-sided sign-flip p ≤ 0.05, and the one-sided
+95% percentile-bootstrap lower bound (resampling pairs) > 0. FLOPs not worse (refutation) iff mean Δq ≤ 0. Otherwise inconclusive
+(null); with fewer than 5 pairs a pass is impossible.
   Paired by construction. η cancels.
 
 ### 5.4 Q3 (cross-machine-ratio test; only if kept by §4.5)
 - Units: files completed and eligible on both hosts. R = y_B / y_A; R_B = B1_B / B1_A; R_F = F1_B / F1_A. e_B, e_F, Δh as in 5.3,
   same decision rule. Robustness: repeated with F2 (if ρ₂ passes) and with B2; if bytes loses against F2 or with B2 the paper must say
   so (claim template T-narrow, §9), though only the F1/B1 comparison is the refutation test.
+Scope: R_B and R_F are one constant pair for all files; files replicate over models, not
+machines, so a Q3 result is stated for these two hosts only.
 
 ### 5.5 Multiplicity
 The positive claim requires Q1 on both hosts **and** Q2 **and** Q3 (when kept): an intersection-union test, so each component is
 tested at its own one-sided 5% level without correction and the family-wise false-positive rate for the joint claim stays ≤ 5%.
 Robustness variants (F2, B2) are not separate confirmatory tests. Q4 has no tests.
+The refutation side (mean Δ ≤ 0; MAPE > 20%) is a union of point rules without α control; its
+rate under the bytes law is given in `analysis/POWER.md` (S5, S6).
 
 ### 5.6 Exploratory (labelled exploratory in the paper)
 Per-format efficiency η_q = y·D/B1 by format and host (the Director's dequantisation risk: llama.cpp issue 25976, `lit/na2024_check.md`
@@ -314,6 +327,10 @@ predictor with attention FLOPs included. None of these can change a Q1-Q3 verdic
   Two failures make the cell **failed**: reported in every table as failed, excluded from MAPE and ratio pairs.
 - **Completeness rule**: if fewer than 75% of a host's planned eligible evaluation cells complete, Q1 for that host is "not
   evaluable" and the outcome is null/partial, never positive. Failures can therefore never help the positive claim.
+- A repeated round replaces the excluded round and counts toward the round total. A sentinel
+re-run block replaces the flagged block if its own bracketing sentinels are within 5%; otherwise the block with the smaller sentinel
+deviation is scored and flagged. Completeness threshold: ceil(0.75 × planned eligible evaluation cells). If the calibration cell
+fails, no substitute is chosen: Q1 is not evaluable on either host (null); Q2 and Q3 proceed.
 - No other exclusions. Outliers are not removed. Every planned cell appears in `results/` and the supplementary table.
 
 ---
@@ -328,8 +345,8 @@ predictor with attention FLOPs included. None of these can change a Q1-Q3 verdic
 | V5 | DRAM plateau: B1 at 4 × LLC vs 8 × LLC per host | ≤ 5% difference, else LLC multiple → 8 (§3.5) | detects cache retention of a streaming pattern (relevant to Host B's 260 MiB L3) |
 | V6 | B1 plausibility, Host A | 0.50 × 51.2 ≤ B1_A ≤ 51.2 GB/s | upper: theoretical peak (physical bound); lower: JUDGEMENT, below half of dual-channel peak indicates a misconfiguration (thread placement, single-channel memory) |
 | V7 | Two bandwidth benchmarks agree on the host ratio: (B1_A/B1_B) vs (B2_A/B2_B) | within 15% | if they disagree more, Q3 must be won with both B1 and B2 (pre-registered consequence) |
-| V8 | Repeatability, development model, tg128, 5 rounds per host | between-round CV ≤ 3% | needed to meet the 2% CI target with 5 rounds (§4.6); otherwise find the noise source first |
-| V9 | Host constants stable: B1, B2, F1 over 5 process runs | CV ≤ 3% each | constants enter every prediction |
+| V8 | Repeatability, development model, tg128, 5 rounds per host | between-round CV ≤ 1.5% | gives P(target met by 8 rounds) = 0.989 (`analysis/POWER.md` Table R); otherwise find the noise source first |
+| V9 | Host constants stable: B1, B2, F1 over 5 process runs | B1: CV ≤ 1.0%; B2, F1: CV ≤ 3% | constants enter every prediction |
 | V10 | Residency: RSS after load ≥ 0.95 × file size with `-lm none` on the development model; `pswpin` delta = 0 during a round | as stated | DRAM-resident and no swap |
 | V11 | Thread placement: `taskset -p` of the llama-bench process during a run matches `mask_h` | exact | T_h is a fixed factor |
 
@@ -359,7 +376,8 @@ runtimes, MoE models, or batched serving."
 B1 measures read bandwidth with a simple reduction, which may exceed what a mixed GEMV access pattern can reach; η absorbs a
 constant gap, but not a host-dependent one (that is exactly what Q1 tests).
 **Conclusion.** Few units: up to ~10 quant pairs and ~6 cross-host files; bootstrap intervals over so few units are coarse
-(statistician to quantify in `analysis/POWER.md`). Multiplicity handled by intersection-union (§5.5). The 20% decision uses the point
+(quantified in `analysis/POWER.md`: no exact
+5% test passes with fewer than 5 units; Q3 power 0.297-0.893 at 5 files and ρ = 1.5 under the assumed heterogeneity). Multiplicity handled by intersection-union (§5.5). The 20% decision uses the point
 MAPE as the question states; its CI is always reported.
 **What we will not be able to claim**: generality beyond two hosts; any causal mechanism for a failure (only the regime); anything
 about prefill, long context beyond depth 1024, or energy.
@@ -415,14 +433,18 @@ about prefill, long context beyond depth 1024, or energy.
 ---
 
 ## 10. Review status (to be resolved before G1)
-- Statistician: **not yet spawned**. This agent's runtime had no agent-spawning tool; the brief is ready for the Director. Sections 4.6
-  and 5 are provisional until `analysis/POWER.md` signs them; any change goes into this draft before G1, not as a deviation.
-- Feasibility of §§3, 6, 8: hardware-lead/experiment-lead sign-off pending.
-- `heldout/README.md` could not be written: the plugin guard blocks every write under `heldout/` before G2, README included. The
-  definition is therefore Appendix H here; a copy for `heldout/README.md` is staged for the Director, who decides whether the guard
-  should allow the README (human/Director decision, not worked around).
-- Blocking facts for G1: Host A OS (Linux assumed, §3.1); Qwen3-0.6B and development-model licences and quants (§3.5, §3.6);
-  llama.cpp licence file at the pinned commit; Host A probe is NOT needed for the protocol (the drop rule is fixed above).
+- Statistician: signed in `analysis/POWER.md` (2026-11-05), sections 4-5
+approved with edits E1-E13.
+- §6 tightening (E10: V8 between-round CV ≤ 1.5%, V9 B1 CV ≤ 1.0%): feasibility reviewed and accepted by the Director, 2026-11-05
+  (Host B pilot spread under 1%, `hardware/HOSTS.md`; Host A is bare metal).
+- G0 condition 1 (Na et al., IISWC 2024; LIMINAL): done. `lit/na2024_check.md`: DOES NOT ANSWER; Director-confirmed 2026-11-05.
+- `heldout/README.md`: written by the Director from Appendix H (identical copy; the guard that blocked it was fixed in plugin v0.2.1).
+- Remaining open items before G1:
+  (1) Host A probe JSON files from the human (`hardware/HOSTS.md`);
+  (2) Host A operating system from the human;
+  (3) licences and quant availability for Qwen3-0.6B and SmolLM2-360M;
+  (4) llama.cpp licence read;
+  (5) hardware/experiment feasibility sign-off of §3, §6, §8 (Director will do this in a technical note).
 
 ---
 
