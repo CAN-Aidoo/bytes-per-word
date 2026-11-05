@@ -1,7 +1,7 @@
 # Protocol: Bytes per word: a pre-registered transfer test of a bandwidth predictor for CPU-only llama.cpp decode
 
-Status: DRAFT until gate G1 is approved. After G1 this file is append-only: changes go in `## Deviations` with a date and reason.
-Author (accountable): Clement Aidoo · Project class: note (technical note, two CPU hosts; G0 condition 3; `.lab/QUESTION.md` 2026-11-05) · Frozen at commit: <filled by gate.py>
+Status: FROZEN at G1 (approved 2026-11-05). After G1 this file is append-only: changes go in `## Deviations` with a date and reason.
+Author (accountable): Clement Aidoo · Project class: note (technical note, two CPU hosts; G0 condition 3; `.lab/QUESTION.md` 2026-11-05) · Frozen at commit: bb1616933655aec7d5b7393618a4f46625aa6122 (content frozen as of that commit; header edited after)
 Drafted by: protocol-architect, 2026-11-05. Review status: sections 4-5 signed by the statistician in `analysis/POWER.md`
 (2026-11-05, edits E1-E13 applied); sections 3, 6, 8 signed off by the Director (`.lab/gates/P1_feasibility.md`, 2026-11-05); open items before G1 are listed in §10.
 
