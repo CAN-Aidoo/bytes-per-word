@@ -63,30 +63,34 @@ decide that part of the question; the paper states which part is untested and ma
 ## 3. System, data and materials
 
 ### 3.1 Hosts (facts from `hardware/HOSTS.md`, owned by the Director; restated, not re-measured)
-- **Host A (calibration host; bare metal).** AMD Ryzen 5 5500U, 6 cores / 12 threads, Zen 2, L3 8 MiB, AVX2, no AVX-512
+- **Host A (calibration host; bare metal, native Windows).** AMD Ryzen 5 5500U, 6 cores / 12 threads, Zen 2, L3 8 MiB, AVX2, no AVX-512
   [SOURCED in HOSTS.md: WikiChip]; 8 GB DDR4-3200 dual channel, both slots [author-stated]; theoretical peak 51.2 GB/s [derived in
-  HOSTS.md]. Runs done by the human with our scripts.
+  HOSTS.md]. Runs done by the human with our scripts. **OS for every Host A scored run and host-constant measurement: native
+  Windows** (human's decision, `.lab/QUESTION.md` 2026-11-05). The laptop's Ubuntu runs under WSL (`systemd-detect-virt` printed
+  "wsl", same source) and **WSL must not be used** for any scored, host-constant or validation measurement on Host A.
 - **Host B (evaluation host; virtualised, shared, labelled as such in every table and figure).** KVM Intel Xeon family 6 model 207
   (Emerald Rapids class), 2 vCPUs, 1 thread/core, L2 4 MiB, L3 260 MiB visible, AVX-512 (VNNI, BF16, FP16), AMX (bf16, int8), ~8 GB
   RAM, no frequency governor exposed [MEASURED: lscpu, HOSTS.md].
 - **Recorded per host before the first scored run** (script `experiments/host_facts.py`, output `results/hosts/<host>.json`): CPU
-  model string, microcode, BIOS/firmware version (Host A: `dmidecode -s bios-version`; Host B: as visible), kernel, OS release,
-  compiler versions, LLC size per `lscpu`, memory size, DIMM count/speed (Host A: `dmidecode -t memory`), SMT state, governor and
-  boost state, THP setting, and (Host A) power source. Serial numbers are not recorded (personal data rule).
+  model string, microcode, BIOS/firmware version, OS release and build, compiler versions, L2/L3 size, memory size, DIMM
+  count/speed, SMT state, frequency/power policy, and (Host A) power source. Host B (Linux) uses `lscpu`, `/proc/cpuinfo`, `uname -r`,
+  `/etc/os-release` and THP setting as visible in the VM; Host A (Windows) uses the tools in §3.8 (CIM classes, `powercfg`, psutil).
+  Serial numbers are not recorded (personal data rule; the CIM queries select named properties only, never `SerialNumber`).
 - **Per-session re-check (Director feasibility amendment, 2026-11-05).** Host B is an ephemeral cloud container that may be placed on
   different physical hardware between sessions. `experiments/host_facts.py` runs at the start of **every** session on both hosts. If the
   CPU model string, microcode, LLC size or vCPU count differs from the first scored session, that host's constants (B1, B2, F1, F2) are
   re-measured before any further cell, the change is logged as a dated deviation, and cells from different hardware are analysed as
   different hosts (never pooled). Raw results and host facts are committed and pushed to the project's remote repository after every
   session, so a reclaimed container loses nothing.
-- **OS requirement (UNVERIFIED for Host A).** All scripts assume Linux (sysfs topology, `/proc/vmstat`, `taskset`). Host A's OS is
-  not recorded in any lab file. **Blocking for G1:** the Director confirms Host A runs Linux for scored runs, or this section is
-  amended before G1 with Windows equivalents.
+- **OS per host (resolved 2026-11-05).** Host A: native Windows (edition, version and build number recorded per session, §3.8);
+  Host B: Linux. Every measured quantity (B1, B2, F1, F2, tok/s, D, P_active) has the same definition on both hosts; only the tools
+  that record state or set placement differ, and each Windows tool is listed with its evidence and fallback in §3.8.
+  Host A free disk on the Windows drive: 13.4 GB (author-stated, `.lab/QUESTION.md`); measured at every session start (§3.8).
 
 ### 3.2 Software, pinned
 - **llama.cpp**: tag `b12129`, commit `3259ab6e5dd86fad1931962d784702cb53c7877b` [SOURCED: `git ls-remote --tags
   https://github.com/ggml-org/llama.cpp.git`, 2026-11-05, newest numbered tag]. Same commit on both hosts.
-- **Build (CPU-only, identical command on both hosts)**:
+- **Build (CPU-only; same options on both hosts; Host B command below, Host A command in §3.8)**:
   `cmake -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DGGML_NATIVE=ON -DGGML_BLAS=OFF -DGGML_OPENMP=ON
   -DGGML_CPU_REPACK=ON -DGGML_CUDA=OFF -DGGML_VULKAN=OFF -DGGML_HIP=OFF -DGGML_SYCL=OFF -DGGML_OPENCL=OFF -DGGML_ZENDNN=OFF
   -DGGML_BACKEND_DL=OFF && cmake --build build --config Release -j`.
@@ -98,19 +102,29 @@ decide that part of the question; the paper states which part is untested and ma
 - **gguf-py** from the same commit (`gguf-py/`), used to read tensor tables (§4.2).
 - **STREAM** v5.10, `stream.c` with SHA-256 `c388924eb140fda95f534cdb808ae7f1f8ebb18da41d8aec1b512a3c8d303c9b`, obtained from
   `https://raw.githubusercontent.com/jeffhammond/STREAM/master/stream.c` (repo HEAD `6703f7504a38a8da96b353cadafa64d3c2d7a2d3`)
-  [SOURCED 2026-11-05; the canonical cs.virginia.edu URL was blocked by the proxy]. Compiled `gcc -O3 -march=native -fopenmp`.
-- **NumPy** for F1: version pinned in `experiments/requirements.txt` at G1 (same version both hosts); `numpy.show_config()` output
-  stored with each F1 measurement.
-- Python 3 version, gcc version and cmake version recorded per host in `results/hosts/<host>.json`.
+  [SOURCED 2026-11-05; the canonical cs.virginia.edu URL was blocked by the proxy]. The only source change for B2 is the timer (§3.3); compiled
+  `gcc -O3 -march=native -fopenmp` on Host B and with the §3.8 clang toolchain (`-O3 -march=native -fopenmp`) on Host A.
+- **NumPy** for F1: installed with `pip` from the PyPI wheel (never the distribution package: Ubuntu's apt `python3-numpy`
+  links the reference BLAS, `.lab/QUESTION.md` 2026-11-05), version pinned in `experiments/requirements.txt` at G1, same version on
+  both hosts; `numpy.show_config()` output stored with each F1 measurement and checked by V12. **psutil** pinned to 7.2.2 (newest
+  released version per its changelog, SOURCED `docs/changelog.rst` "7.2.2 — 2026-01-28"; 8.0.0 is "unreleased") in the same file.
+- Python 3 version, compiler (gcc on Host B, clang on Host A) version and cmake version recorded per host in `results/hosts/<host>.json`.
 
 ### 3.3 Bandwidth benchmarks (G0 condition 4: two benchmarks)
-Both run at the host's scored thread count T_h (§3.7), with `OMP_NUM_THREADS=T_h OMP_PROC_BIND=close OMP_PLACES=cores`.
+Both run at the host's scored thread count T_h (§3.7), with `OMP_NUM_THREADS=T_h OMP_PROC_BIND=close OMP_PLACES=cores`, launched by
+`experiments/launch.py`, which also sets the process affinity to `mask_h` (§3.7) before starting the benchmark (on Host A the OpenMP
+binding variables are UNVERIFIED under Windows, so the inherited process affinity is the placement that counts; checked by V11).
+**Timer (both hosts, same source):** STREAM's `mysecond()` uses `gettimeofday` from `<sys/time.h>` [SOURCED: stream.c lines 415-427],
+which native Windows toolchains do not provide; both B1 and B2 sources therefore replace `mysecond()` with `omp_get_wtime()` on both
+hosts, so the timer is identical. STREAM rule (b), "the 'timing calibration' output by the program is at least 20 clock-ticks"
+[SOURCED: stream.c lines 70-71], is checked on every run (V13).
 - **B1, primary ("sustained read bandwidth")**: `experiments/bw/stream_read.c`, a variant of STREAM v5.10 that adds a read-only
   `Sum` kernel (s += a[j] over a double array, OpenMP reduction), keeping STREAM's timing loop (NTIMES = 20) and array sizing. Labelled
   "based on a variant of the STREAM benchmark code", as STREAM's licence item 3b requires [SOURCED: stream.c lines 29-34]. Reported
   value per process run: the median of iterations 2-20 of the Sum kernel in GB/s (bytes = 8 × N). Host value B1_h: median of 5 process
   runs. Rationale (JUDGEMENT): decode reads weights and KV; a read-only kernel measures the quantity the question names.
-- **B2, secondary**: unmodified STREAM v5.10 Triad "Best Rate" (STREAM's own counting, 24 bytes per iteration). Host value B2_h:
+- **B2, secondary**: STREAM v5.10 Triad "Best Rate" (STREAM's own counting, 24 bytes per iteration), with only the timer change above;
+  labelled "based on a variant of the STREAM benchmark code" (licence item 3b). Host value B2_h:
   median of 5 process runs.
 - **Array size**: each array ≥ 4 × LLC of the host, per STREAM rule (a): "Each array must be at least 4 times the size of the
   available cache memory" [SOURCED: stream.c lines 58-59]. Host A: ≥ 32 MiB; Host B: ≥ 1040 MiB. Additionally B1 is measured at
@@ -118,7 +132,9 @@ Both run at the host's scored thread count T_h (§3.7), with `OMP_NUM_THREADS=T_
 - The NumPy probe of `hardware/host_probe.py` (pilot, `results/pilot/`) is advisory only and never enters any predictor.
 
 ### 3.4 FLOP/s benchmarks (for the FLOPs predictor)
-- **F1, primary**: FP32 GEMM, NumPy `float32` matmul, n = m = k = 4096, `OPENBLAS_NUM_THREADS=T_h` (and `OMP_NUM_THREADS=T_h`),
+- **F1, primary**: FP32 GEMM, NumPy `float32` matmul, n = m = k = 4096, pip-installed NumPy (§3.2), `OPENBLAS_NUM_THREADS=T_h` (and `OMP_NUM_THREADS=T_h`; OpenBLAS: "The priorities are
+  `OPENBLAS_NUM_THREADS` > `GOTO_NUM_THREADS` > `OMP_NUM_THREADS`", SOURCED OpenMathLib/OpenBLAS README; both set so either build
+  honours T_h), launched by `experiments/launch.py` with affinity `mask_h`,
   1 warm-up then 5 timed products per process; process value = median; host value F1_h = median of 5 process runs; FLOPs = 2n³.
   Rationale (JUDGEMENT): a model-independent, vendor-BLAS compute ceiling, measured the same way on both hosts, mirrors B1's role.
 - **F2, robustness competitor**: llama.cpp's own compute-bound rate on the calibration file: F2_h = 2 · P_active(cal) · pp512_h,
@@ -156,8 +172,9 @@ Files are deleted after use on Host A (disk); the hash and revision make them re
    If V5 shows that B1 at 4 × LLC exceeds B1 at 8 × LLC by more than 5% on a host, the multiple for that host becomes 8 (decided by
    the validation run, before any model run). Thresholds: Host A ≥ 32 MiB (all files pass); Host B ≥ 1040 MiB (or 2080 MiB).
    Ineligible cells are not scored; they may be run as exploratory "cache-regime" cells (Q4).
-2. **RAM fit**: at block start, `MemAvailable` ≥ file bytes + KV bytes at the tested depth + 1.0 GiB (JUDGEMENT: margin for the
-   process, compute buffers and the OS; prevents swap). A cell that fails this check after a fresh reboot with no other user
+2. **RAM fit**: at block start, available memory (`psutil.virtual_memory().available`, both hosts; "memory that can be given
+   instantly to processes", SOURCED psutil `docs/api.rst`) ≥ file bytes + KV bytes at the tested depth + 1.0 GiB (JUDGEMENT: margin for the
+   process, compute buffers and the OS; prevents swap). A cell that fails this check after a fresh restart with no other user
    programs is recorded as DNF ("did not fit"), reported, and not scored. This check never looks at tok/s.
 3. Qwen3-4B F16 is excluded a priori (8.05 GB file > 8 GB RAM).
 
@@ -181,10 +198,40 @@ sizes above, the 0.6B files at Q4_K_M and Q8_0 are expected to fail rule 1 on Ho
 - **Generation length** n_gen = 128 tokens, **prompt** 0 tokens, **depth** 0 (primary). llama-bench excludes tokenisation and sampling
   from its timing [SOURCED, README note].
 - **Thread count** T_A = 6, T_B = 2 (one thread per physical core; JUDGEMENT: the standard deployment choice, fixed before data).
-  `mask_h` selects the first logical CPU of each physical core, built from `/sys/devices/system/cpu/*/topology`. B1, B2, F1 and F2 use
+  `mask_h` selects the first logical CPU of each physical core: Host B from `/sys/devices/system/cpu/*/topology`; Host A from the
+  Windows processor topology (§3.8). On Windows, `-C/--cpu-strict` are implemented: ggml-cpu at the pinned commit applies the mask
+  with `SetThreadAffinityMask` in its `_WIN32` branch, also inside the OpenMP parallel region [SOURCED: `ggml/src/ggml-cpu/ggml-cpu.c`
+  lines 2542-2577 and 3438-3455]. B1, B2, F1 and F2 use
   the same T_h and placement.
 - **Seeds**: run order seed 20261105 (confirmatory), 20261106 (confirmation set), 20261107 (exploratory Q4); bootstrap seed 20261108.
   llama-bench uses no sampling seed for timing.
+
+
+### 3.8 Host A on native Windows: tools and procedures (Host B unchanged, Linux)
+Evidence key as above. "Fallback" is the pre-registered rule if the primary tool is unavailable or fails its check; which one was
+used is recorded in `results/hosts/A.json`. None of these choices changes a measured quantity or a threshold.
+
+| Item | Host A (Windows) primary | Evidence | Fallback |
+|---|---|---|---|
+| Toolchain | Visual Studio 2022 "Desktop development with C++" with the components "C++ CMake Tools for Windows", "C++ Clang Compiler for Windows", "MS-Build Support for LLVM-Toolset (clang)"; all commands in a "Developer Command Prompt / PowerShell for VS2022" | SOURCED `docs/build.md` lines 69-73 at the pinned commit | none: building with any other toolchain is a deviation |
+| Build command | `cmake --preset x64-windows-llvm-release -DBUILD_SHARED_LIBS=OFF -DGGML_NATIVE=ON -DGGML_BLAS=OFF -DGGML_OPENMP=ON -DGGML_OPENMP_FETCH=ON -DGGML_CPU_REPACK=ON -DGGML_CUDA=OFF -DGGML_VULKAN=OFF -DGGML_HIP=OFF -DGGML_SYCL=OFF -DGGML_OPENCL=OFF -DGGML_ZENDNN=OFF -DGGML_BACKEND_DL=OFF` then `cmake --build build-x64-windows-llvm-release` | Preset SOURCED `docs/build.md` lines 86-89 and `CMakePresets.json` (Ninja generator, `CMAKE_BUILD_TYPE=Release`, toolchain `cmake/x64-windows-llvm.cmake` = clang/clang++ for x86_64). The `set LIB=...` path step in build.md lines 82-85 is applied with the paths that exist on the laptop (recorded) | if the preset fails, `cmake -B build -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++` with the same `-D` options (deviation logged) |
+| OpenMP | `GGML_OPENMP_FETCH=ON` downloads LLVM OpenMP 20.1.8 (x64 runtime supported, installer SHA-256 pinned in CMake) and requires Clang major version 20 and Windows | SOURCED `ggml/src/CMakeLists.txt` lines 227-258 ("GGML_OPENMP_FETCH currently requires Clang on Windows"; "LLVM OpenMP ... requires Clang 20.x"); VS 2022's bundled clang version is UNVERIFIED | install LLVM/clang 20.x and point the toolchain at it. CMake's normal detection silently sets `GGML_OPENMP_ENABLED=OFF` with "OpenMP not found" (SOURCED same file lines 339-348), so V14 checks the cache. If OpenMP cannot be enabled on Host A, **both** hosts are rebuilt with `GGML_OPENMP=OFF` before any scored run (threading model must match), logged as a deviation |
+| Native ISA | `GGML_NATIVE=ON` → `-march=native` for non-MSVC (clang) x86 builds | SOURCED `ggml/src/ggml-cpu/CMakeLists.txt` lines 288-347 (MSVC branch uses FindSIMD; else `-march=native`) | none; ISA list from llama.cpp's system-info line is recorded (must show AVX2, no AVX-512) |
+| STREAM / B1 / B2 compile | same clang: `clang -O3 -march=native -fopenmp <src> -o <exe>` linking the fetched `libomp` | clang `-fopenmp` with LLVM libomp: UNVERIFIED on Windows in this task | `clang-cl /O2 /openmp:llvm /arch:AVX2` (UNVERIFIED); either way V13 and V9 must pass |
+| Timer | `omp_get_wtime()` (§3.3) | STREAM rule (b) SOURCED; Windows resolution of `omp_get_wtime` UNVERIFIED | V13 (≥ 20 ticks) decides; if it fails, array size is raised (rule (b) is STREAM's own remedy) |
+| NumPy / OpenBLAS | `py -m pip install -r experiments/requirements.txt` (PyPI wheel), `OPENBLAS_NUM_THREADS=6` | wheel bundling OpenBLAS: UNVERIFIED in this task | V12: `numpy.show_config()` must name OpenBLAS on both hosts; otherwise F1 is invalid until fixed |
+| CPU, caches, cores | `Get-CimInstance Win32_Processor` properties `Name, NumberOfCores, NumberOfLogicalProcessors, L2CacheSize, L3CacheSize, MaxClockSpeed` | UNVERIFIED (Microsoft docs not opened) | `wmic cpu get ...` or `msinfo32 /report`; LLC used in rules is 8 MiB from HOSTS.md unless the query disagrees (then the query value, logged) |
+| Memory | `Get-CimInstance Win32_PhysicalMemory` properties `Capacity, Speed, ConfiguredClockSpeed, DeviceLocator` (expect 2 modules) | UNVERIFIED | `msinfo32 /report`; author statement |
+| Firmware, OS | `Get-CimInstance Win32_BIOS` property `SMBIOSBIOSVersion`; `Win32_OperatingSystem` properties `Caption, Version, BuildNumber` | UNVERIFIED | `systeminfo` |
+| Topology for `mask_A` | `GetLogicalProcessorInformationEx(RelationProcessorCore)` via ctypes in `experiments/topology_win.py`: one logical CPU (lowest index) per core | UNVERIFIED | Sysinternals Coreinfo output pasted into the log; V11 must pass with the chosen mask |
+| Placement | `llama-bench -C <mask_A> --cpu-strict 1` (SOURCED, §3.7) plus process affinity set by `experiments/launch.py` with `psutil.Process().cpu_affinity(cores)` (Windows supported: SOURCED psutil `docs/api.rst` "availability:: Linux, Windows, FreeBSD") | as stated | none; V11 is exact |
+| Power source | `psutil.sensors_battery().power_plugged` must be `True` (availability includes Windows, SOURCED psutil docs) | SOURCED | human confirms in the session log |
+| Power plan | `powercfg /getactivescheme` recorded; "High performance" (or the highest-performance mode offered) selected for the session | UNVERIFIED | Settings → Power mode "Best performance", recorded by the human |
+| Disk | free space on the model drive via `psutil.disk_usage()` at session start and before each download | psutil cross-platform (UNVERIFIED for this field on Windows) | `Get-PSDrive` |
+| Memory available, residency | `psutil.virtual_memory().available`; process working set `psutil.Process().memory_info().rss` ("On Windows maps to WorkingSetSize", SOURCED psutil `docs/api.rst`) | SOURCED | `Get-Process llama-bench | Select WorkingSet64` |
+| Paging during a round (replaces Linux `pswpin`) | system counter `\Memory\Pages Input/sec` sampled each second over the round with `typeperf` | UNVERIFIED | if idle development-model rounds show non-zero background Pages Input (V10), the round check becomes "available memory ≥ 1.0 GiB at every 1 s sample" (the §3.5 margin), decided at validation before any scored run and logged |
+| Temperature, clock | CPU temperature: no portable Windows source (psutil `sensors_temperatures` is "Linux, FreeBSD" only, SOURCED); try `MSAcpi_ThermalZoneTemperature` (root/wmi) | UNVERIFIED (often absent) | if no sensor: the §4.6 cool-down gate is replaced on Host A by a fixed 120 s idle wait before each round (JUDGEMENT: longer than a laptop's typical fan spin-down; the sentinel rule still detects drift), and `\Processor Information(_Total)\% Processor Performance` (UNVERIFIED) is logged per round as the throttling indicator |
+| Background noise | before each session: Windows Update paused; no Microsoft Defender scan running (`Get-MpComputerStatus`, UNVERIFIED) and none scheduled in the session window; build and model folders added as Defender exclusions (`Add-MpPreference -ExclusionPath`, UNVERIFIED) while real-time protection stays on; OneDrive/cloud sync paused; all user programs closed | UNVERIFIED tool names | the human ticks each item in the session checklist `experiments/SESSION_A.md`; the sentinel rule covers what slips through |
 
 ---
 
@@ -269,10 +316,13 @@ positive claim is unreachable, and continuing requires a dated deviation.
   the 5 rounds run consecutively. A **sentinel** (development model, kept on disk throughout, 1 round) runs at session start and after
   every file; if a sentinel deviates by > 5% from the session's first sentinel, the preceding file's block is flagged and re-run at the
   end of the session (JUDGEMENT: 5% is a quarter of the MAPE threshold).
-- **Thermal and load state** recorded before and after every round: CPU temperatures (`/sys/class/hwmon`), per-core MHz, 1-min load
-  average, MemAvailable, `pswpin` and steal time from `/proc/stat` and `/proc/vmstat`. Host A: mains power, lid open, no user programs,
-  performance governor if exposed. Rounds start only when the hottest sensor is within 5 °C of the idle baseline taken at session start
+- **Thermal and load state** recorded before and after every round. Host B (Linux): CPU temperatures (`/sys/class/hwmon`) if
+  visible, per-core MHz, 1-min load average, MemAvailable, `pswpin` and steal time from `/proc/stat` and `/proc/vmstat`. Host A
+  (Windows, §3.8): temperature if a sensor exists, `% Processor Performance`, CPU utilisation (`psutil.cpu_percent`), available memory,
+  Pages Input, power source; mains power, lid open, no user programs, power plan per §3.8. Rounds start only when the hottest sensor is within 5 °C of the idle baseline taken at session start (Host A without a sensor: §3.8 fallback)
   (max wait 300 s, then start and flag). Host B: rounds start only when 1-min load average < 0.3.
+  Host A (Windows has no load average): rounds start only when system CPU utilisation over the preceding 5 s is below 5% (JUDGEMENT:
+  Windows equivalent of Host B's idle gate; one busy logical CPU of 12 is 8%).
 - **Exploratory Q4 runs** (thread sweep T ∈ {1, 2, 4, 6} on Host A and {1, 2} on Host B for Qwen3-1.7B Q4_K_M and Q8_0; depth 1024
   for the Qwen3-1.7B files on both hosts; ineligible cache-regime cells on Host B) run only after all confirmatory rounds of the
   session, 3 rounds each, order seed 20261107.
@@ -326,9 +376,9 @@ line 31); thread-scaling curves; depth-1024 APE (tests the KV term); cache-regim
 predictor with attention FLOPs included. None of these can change a Q1-Q3 verdict.
 
 ### 5.7 Exclusions, failures, crashes, timeouts (decided now)
-- A round is **excluded and repeated once** (at the end of the session) if: `pswpin` increased during it (swap: not DRAM-resident);
+- A round is **excluded and repeated once** (at the end of the session) if: paging occurred during it (Host B: `pswpin` increased; Host A: the §3.8 paging check failed) (not DRAM-resident);
   Host B steal time > 5% of the round's CPU time (JUDGEMENT: caps stolen-time bias at a quarter of the MAPE threshold); Host A
-  on battery; or a sentinel flag (§4.6). A repeated round failing again is kept and flagged; the cell is reported with the flag.
+  on battery (`power_plugged` false at any sample); or a sentinel flag (§4.6). A repeated round failing again is kept and flagged; the cell is reported with the flag.
 - A **crash** (non-zero exit, OOM kill) or **timeout** (a round exceeding 30 min, then killed) is logged and the round retried once.
   Two failures make the cell **failed**: reported in every table as failed, excluded from MAPE and ratio pairs.
 - **Completeness rule**: if fewer than 75% of a host's planned eligible evaluation cells complete, Q1 for that host is "not
@@ -353,8 +403,11 @@ fails, no substitute is chosen: Q1 is not evaluable on either host (null); Q2 an
 | V7 | Two bandwidth benchmarks agree on the host ratio: (B1_A/B1_B) vs (B2_A/B2_B) | within 15% | if they disagree more, Q3 must be won with both B1 and B2 (pre-registered consequence) |
 | V8 | Repeatability, development model, tg128, 5 rounds per host | between-round CV ≤ 1.5% | gives P(target met by 8 rounds) = 0.989 (`analysis/POWER.md` Table R); otherwise find the noise source first |
 | V9 | Host constants stable: B1, B2, F1 over 5 process runs | B1: CV ≤ 1.0%; B2, F1: CV ≤ 3% | constants enter every prediction |
-| V10 | Residency: RSS after load ≥ 0.95 × file size with `-lm none` on the development model; `pswpin` delta = 0 during a round | as stated | DRAM-resident and no swap |
-| V11 | Thread placement: `taskset -p` of the llama-bench process during a run matches `mask_h` | exact | T_h is a fixed factor |
+| V10 | Residency: resident memory after load ≥ 0.95 × file size with `-lm none` on the development model (Host B: RSS; Host A: working set, `memory_info().rss` = WorkingSetSize); no paging during a round (Host B: `pswpin` delta = 0; Host A: `\Memory\Pages Input/sec` = 0 at every sample, or the §3.8 fallback) | as stated | DRAM-resident and no swap |
+| V11 | Thread placement: the llama-bench and benchmark processes' affinity matches `mask_h` (Host B: `taskset -p`; Host A: `psutil.Process(pid).cpu_affinity()` sampled during the run) | exact | T_h is a fixed factor |
+| V12 | F1 library: `numpy.show_config()` reports OpenBLAS on both hosts; NumPy version equals the pinned one | exact | F1 must be the same quantity on both hosts (reference BLAS would understate F) |
+| V13 | STREAM timing: every B1/B2 run reports a timing calibration of ≥ 20 clock ticks | ≥ 20 ticks | STREAM rule (b), SOURCED stream.c lines 70-71 |
+| V14 | Build state: `GGML_OPENMP_ENABLED` in the CMake cache is the same on both hosts (ON unless the §3.8 OpenMP fallback applied); Host A system-info shows AVX2 and no AVX-512 | exact | threading model and ISA as specified |
 
 A failed check blocks scored runs on that host until fixed; the fix is logged as a deviation if it changes anything in §3.
 
@@ -372,6 +425,10 @@ A failed check blocks scored runs on that host until fixed; the fix is logged as
 - *Virtualisation noise and shared tenancy on Host B*: steal-time exclusion, interleaving, load gate; residual: undisclosed host
   frequency and memory configuration (UNVERIFIED); labelled "shared virtualised host" everywhere.
 - *Drift and thermal throttling on Host A (15 W laptop)*: sentinel runs, cool-down gate, temperature logging.
+- *Different OS and compiler between hosts* (Host A Windows + clang, Host B Linux + gcc): the scheduler, timer and compiler
+  differ, so a cross-host difference may be partly OS/toolchain rather than hardware. Mitigation: identical source, options, timer,
+  NumPy/OpenBLAS version and placement rule; V12-V14. Limitation sentence: "Host differences include operating system and compiler,
+  not only hardware."
 - *Order effects*: randomised order (Host B interleaved; Host A file-blocked with sentinel).
 - *Measurement error in D*: V4; KV averaging over d̄ is an approximation (KV ≈ 0.7% of D in the worked example at depth 0).
 - *F1 as FLOPs ceiling*: NumPy/OpenBLAS may not represent llama.cpp's kernels; mitigated by F2 (runtime-native).
@@ -400,6 +457,10 @@ about prefill, long context beyond depth 1024, or energy.
 - **Early stopping**: only for safety, budget exhaustion, a failed validation check, or a RED alert. Never for good (or bad) results.
   No analysis of evaluation cells before all confirmatory rounds on both hosts are complete (the analysis script refuses to compute
   MAPE or ratio tests until `CELLS.csv` shows every planned cell as done, failed or DNF).
+- **Host A (Windows) session controls**: the §3.8 background-noise checklist (Windows Update paused, no Defender scan in the
+  window, Defender real-time protection left on with folder exclusions only, sync paused, user programs closed), power plan per §3.8,
+  mains power, WSL not running (`wsl --shutdown` before the session; UNVERIFIED command, fallback: confirm no `vmmem` process). Security
+  settings are restored at session end (Update un-paused, exclusions removed); never disable Defender.
 - **Hardware safety**: laptop on a hard surface with vents clear, mains power; stop the session if any CPU sensor reports ≥ 90 °C or
   the OS logs thermal throttling (JUDGEMENT; normal operation, no electrical modification).
 - **Dual use**: none identified (performance measurement of public open-weight models). **Licences**: models Apache-2.0 (0.6B and
@@ -447,7 +508,10 @@ approved with edits E1-E13.
 - `heldout/README.md`: written by the Director from Appendix H (identical copy; the guard that blocked it was fixed in plugin v0.2.1).
 - Remaining open items before G1:
   (1) Host A probe JSON files from the human (`hardware/HOSTS.md`);
-  (2) Host A operating system from the human;
+  (2) Host A operating system from the human: RESOLVED 2026-11-05: native Windows for all Host A scored, host-constant and validation
+      measurements; WSL excluded (`.lab/QUESTION.md`; §3.1, §3.8). Host A disk: 13.4 GB free on the Windows drive (author-stated), enough
+      for the grid's largest Host A file (Qwen3-4B Q8_0, 4.28 GB) plus the development model and build; held-out cell HA4 (≥ 12 GB rule,
+      Appendix H) runs only if free space measured at that session's start is ≥ 12 GB;
   (3) licences and quant availability for Qwen3-0.6B and SmolLM2-360M;
   (4) llama.cpp licence read;
   (5) hardware/experiment feasibility sign-off of §3, §6, §8 (Director will do this in a technical note).
