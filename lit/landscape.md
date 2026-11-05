@@ -50,3 +50,11 @@ Narrowest defensible claim: "a preregistered, out-of-sample test of the bytes-pe
 - Also seen only as search snippets: 2610.28576 (Token-Energy Law), 2609.30854 (KV cache memory wall), 2601.05047 (LLM inference hardware, Google), 2606.21428 (MoE on consumer hardware, cited by 2609.04238), 2410.16144 (1-bit AI Infra).
 - llama.cpp and ggml documentation or discussions may already contain informal bandwidth-vs-tok/s tables; blogs and repositories were not searched and would be "background" only.
 - Peer-reviewed venue coverage: IEEE Micro, NeurIPS 2023, ICLR 2023 and MLSys 2024 are asserted by pages I opened (footer or reference lists); most others are preprints dated 2026 that may not be peer-reviewed.
+
+## P1 update (2026-11-05)
+G0 condition 1 checked; details and quotes in `lit/na2024_check.md`.
+- Na et al. IISWC 2024 [na2024cpu]: DOES NOT ANSWER. Empirical characterisation of Xeon (DDR4, DDR5+HBM, AMX) vs A100/H100 in BF16 on OPT and LLaMA-2; no predictor, no quantisation sweep, no frozen constant. Read via summaries of the NSF PAR manuscript and slides; venue string unconfirmed (see Not reached).
+- LIMINAL [davies2025liminal], arXiv:2507.14397: DOES NOT ANSWER. GPU analytical decode model (7.6% MAE on 8xH100) with a fitted constant; no CPU, llama.cpp or quantisation. Supports the premise only.
+- New caution [anon2026armgemv]: a llama.cpp issue reports quantised decode on Arm reaching only about 30-63% of STREAM bandwidth, depending on quant, i.e. compute-bound kernels. Relevant to the quantisation-ratio test on the Pi.
+- No Sept-Nov 2026 CPU-only frozen-constant bytes-vs-FLOPs predictor was found (3 extra WebSearch queries, about 25 hits screened). Qiu et al. remains the most threatening paper.
+- Not reached: Na et al. IEEE Xplore page https://ieeexplore.ieee.org/document/10763564 (no article text returned).
