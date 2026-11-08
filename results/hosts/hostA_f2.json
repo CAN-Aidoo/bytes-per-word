@@ -1,0 +1,30 @@
+{
+ "definition": "pp512_A = llama-bench -p 512 -n 0 -t 6 -r 5 on the calibration file Qwen3-1.7B-Q8_0 (tok/s); F2_A = 2 * P_active(cal) * pp512_A is computed in analysis/ (P_active from the PROTOCOL script)",
+ "pp512_A_toks": 11.01763,
+ "samples_toks": [
+  11.1309,
+  10.554,
+  11.1901,
+  10.4294,
+  11.7837
+ ],
+ "stddev_toks": 0.54551,
+ "cv_pct": 4.4286857216443485,
+ "model": "Qwen3-1.7B-Q8_0.gguf",
+ "model_sha256": "9860780f3a1fab1f8f909a1b549ea3e62c22d19ab1a492b3a1026b38c5bd3ec3",
+ "build_commit": "3259ab6",
+ "backends": "CPU",
+ "n_threads": 6,
+ "affinity_matches_mask": true,
+ "mask_cpus": [
+  0,
+  2,
+  4,
+  6,
+  8,
+  10
+ ],
+ "power_plugged_at_launch": true,
+ "returncode": 0,
+ "notes": "Run by the author from a plain Command Prompt via hostA-downloads/run_f2.bat with the Claude app closed (RAM). Earlier attempt with the app open was stopped after ~40 min (free RAM 0.56 GiB, paging) and not recorded. V10 paging counters were NOT sampled in this run; stability (CV about 4%) and the run time suggest no paging, but this is not verified. Cross-check: 2*1.7e9*11.0 = about 37 GFLOP/s, equal to F1_A (37.3)."
+}
