@@ -1,0 +1,146 @@
+{
+ "model": "smollm2-360m-instruct-q8_0.gguf",
+ "rounds": [
+  {
+   "value_toks": 20.516479,
+   "samples": [
+    20.3121,
+    21.4042,
+    19.0308,
+    20.3031,
+    21.5322
+   ],
+   "pre": {
+    "cpu_pct_5s": 2.8,
+    "avail_gib": 3.43,
+    "plugged": true
+   },
+   "post": {
+    "cpu_pct_5s": 3.7,
+    "avail_gib": 3.44,
+    "plugged": true
+   },
+   "start_flagged_not_quiet": false,
+   "affinity_ok": true,
+   "returncode": 0,
+   "backends": "CPU",
+   "build_commit": "3259ab6"
+  },
+  {
+   "value_toks": 20.703376,
+   "samples": [
+    19.4962,
+    21.3288,
+    21.6375,
+    21.5173,
+    19.5371
+   ],
+   "pre": {
+    "cpu_pct_5s": 2.1,
+    "avail_gib": 3.44,
+    "plugged": true
+   },
+   "post": {
+    "cpu_pct_5s": 12.2,
+    "avail_gib": 3.45,
+    "plugged": true
+   },
+   "start_flagged_not_quiet": false,
+   "affinity_ok": true,
+   "returncode": 0,
+   "backends": "CPU",
+   "build_commit": "3259ab6"
+  },
+  {
+   "value_toks": 20.308753,
+   "samples": [
+    21.1763,
+    21.6228,
+    19.7844,
+    20.2682,
+    18.6922
+   ],
+   "pre": {
+    "cpu_pct_5s": 2.5,
+    "avail_gib": 3.45,
+    "plugged": true
+   },
+   "post": {
+    "cpu_pct_5s": 12.4,
+    "avail_gib": 3.4,
+    "plugged": true
+   },
+   "start_flagged_not_quiet": false,
+   "affinity_ok": true,
+   "returncode": 0,
+   "backends": "CPU",
+   "build_commit": "3259ab6"
+  },
+  {
+   "value_toks": 20.611691,
+   "samples": [
+    18.6691,
+    21.3241,
+    21.0227,
+    21.5803,
+    20.4622
+   ],
+   "pre": {
+    "cpu_pct_5s": 4.0,
+    "avail_gib": 3.45,
+    "plugged": true
+   },
+   "post": {
+    "cpu_pct_5s": 13.6,
+    "avail_gib": 3.45,
+    "plugged": true
+   },
+   "start_flagged_not_quiet": false,
+   "affinity_ok": true,
+   "returncode": 0,
+   "backends": "CPU",
+   "build_commit": "3259ab6"
+  },
+  {
+   "value_toks": 20.847478,
+   "samples": [
+    21.4713,
+    21.4448,
+    20.0581,
+    19.5893,
+    21.6739
+   ],
+   "pre": {
+    "cpu_pct_5s": 3.6,
+    "avail_gib": 3.45,
+    "plugged": true
+   },
+   "post": {
+    "cpu_pct_5s": 2.4,
+    "avail_gib": 3.47,
+    "plugged": true
+   },
+   "start_flagged_not_quiet": false,
+   "affinity_ok": true,
+   "returncode": 0,
+   "backends": "CPU",
+   "build_commit": "3259ab6"
+  }
+ ],
+ "values": [
+  20.516479,
+  20.703376,
+  20.308753,
+  20.611691,
+  20.847478
+ ],
+ "mean_toks": 20.5975554,
+ "between_round_cv_pct": 0.9825697863835413,
+ "V8_pass": true,
+ "V11_pass": true,
+ "all_plugged": true,
+ "n_flagged_not_quiet": 0,
+ "development": false,
+ "definition": "V8: 5 rounds, each one fresh llama-bench process (warm-up + 5 reps of tg128), SmolLM2-360M-Instruct Q8_0, T_A = 6, mask_A; between-round CV limit 1.5% (PROTOCOL 6)",
+ "notes": "Run by the author from a plain Command Prompt via hostA-downloads/run_v8.bat with the Claude app closed; all 5 rounds started on a quiet CPU (2 to 4%), 3.4 GiB free, plugged in. An earlier session run from inside the Claude app (5 rounds, mean 14.9 tok/s, CV 11.1%, 4 of 5 rounds started while the CPU was 10 to 48% busy) failed V8 and is not recorded as the result. Observation: tg128 is about 38% higher with the app closed (20.6 vs 14.9 tok/s), so measurements taken with the app open, including B1, B2 and F1 on Host A, may be depressed."
+}

@@ -2,15 +2,15 @@
  "development": false,
  "power_plugged": true,
  "runs_n": 5,
- "F1_A_gflops": 37.29167209134791,
+ "F1_A_gflops": 52.06890160490549,
  "process_values": [
-  37.29167209134791,
-  39.282283850044074,
-  39.16275118482032,
-  37.12031895197486,
-  31.20857500092545
+  49.454584348577214,
+  46.31761490505927,
+  52.66682978484359,
+  52.06890160490549,
+  52.932007837552035
  ],
- "cv_pct": 7.998640176678862,
+ "cv_pct": 4.9502369051013675,
  "numpy": "2.5.4",
  "V12_openblas_named": true,
  "V11_pass": true,
@@ -21,15 +21,15 @@
    "n": 4096,
    "numpy": "2.5.4",
    "dtype": "float32",
-   "gflops_median": 37.29167209134791,
+   "gflops_median": 49.454584348577214,
    "gflops_all": [
-    38.93054218104735,
-    37.29167209134791,
-    36.328631202935966,
-    36.88736877177117,
-    39.3429261850335
+    51.224316123536624,
+    52.589643936629784,
+    46.70673975229461,
+    44.890545138492094,
+    49.454584348577214
    ],
-   "min_time_s": 3.4933587000014086,
+   "min_time_s": 2.613422399999763,
    "openblas_in_config": true,
    "checksum": 2029.8590698242188,
    "affinity_ok": true,
@@ -39,15 +39,15 @@
    "n": 4096,
    "numpy": "2.5.4",
    "dtype": "float32",
-   "gflops_median": 39.282283850044074,
+   "gflops_median": 46.31761490505927,
    "gflops_all": [
-    39.282283850044074,
-    38.30585531698964,
-    39.5626695482835,
-    39.368844069640865,
-    35.18977543663616
+    46.04773121965529,
+    40.95067839140149,
+    46.39605140129356,
+    47.56788918480476,
+    46.31761490505927
    ],
-   "min_time_s": 3.473955500001466,
+   "min_time_s": 2.889322099999845,
    "openblas_in_config": true,
    "checksum": 2029.8590698242188,
    "affinity_ok": true,
@@ -57,15 +57,15 @@
    "n": 4096,
    "numpy": "2.5.4",
    "dtype": "float32",
-   "gflops_median": 39.16275118482032,
+   "gflops_median": 52.66682978484359,
    "gflops_all": [
-    27.95493669594508,
-    39.16275118482032,
-    39.86514822688107,
-    38.67098143416886,
-    39.29079053390141
+    52.54578042852516,
+    52.62177971400236,
+    52.76796396271495,
+    52.76894049342748,
+    52.66682978484359
    ],
-   "min_time_s": 3.447596699999849,
+   "min_time_s": 2.604542600000059,
    "openblas_in_config": true,
    "checksum": 2029.8590698242188,
    "affinity_ok": true,
@@ -75,15 +75,15 @@
    "n": 4096,
    "numpy": "2.5.4",
    "dtype": "float32",
-   "gflops_median": 37.12031895197486,
+   "gflops_median": 52.06890160490549,
    "gflops_all": [
-    37.12031895197486,
-    33.6602159673093,
-    32.4723780019435,
-    37.53654432511322,
-    38.584397055083045
+    52.06890160490549,
+    39.13762209227109,
+    39.41532084727571,
+    53.12869409763746,
+    52.310461708447676
    ],
-   "min_time_s": 3.5620345000024827,
+   "min_time_s": 2.586906300000919,
    "openblas_in_config": true,
    "checksum": 2029.8590698242188,
    "affinity_ok": true,
@@ -93,15 +93,15 @@
    "n": 4096,
    "numpy": "2.5.4",
    "dtype": "float32",
-   "gflops_median": 31.20857500092545,
+   "gflops_median": 52.932007837552035,
    "gflops_all": [
-    39.94304976111833,
-    31.622760027151035,
-    31.20857500092545,
-    21.94704288204001,
-    27.144302349376147
+    52.95747578333764,
+    52.932007837552035,
+    52.658598827687804,
+    52.99925200145612,
+    43.69265425706507
    ],
-   "min_time_s": 3.440872799998033,
+   "min_time_s": 2.593224400001418,
    "openblas_in_config": true,
    "checksum": 2029.8590698242188,
    "affinity_ok": true,
@@ -109,5 +109,5 @@
   }
  ],
  "definition": "F1_A = median of 5 process values (GFLOP/s); each process = 1 warm-up + 5 timed 4096^3 float32 NumPy matmuls (FLOPs = 2 n^3); T_A = 6, mask_A via experiments/launch.py",
- "notes": "One scored session, plugged in, Best performance. V11 and V12 pass (OpenBLAS 0.3.34 via numpy 2.5.4, Haswell kernel selected). Process-value CV 8.0%. Unscored diagnostic (same machine, not recorded as a constant): single-thread GEMM 9.8 GFLOP/s, 2 threads 18.0, 4 threads 33.6, 6 threads 41.8, 12 threads 31.5; 9.8 GFLOP/s per core is about a quarter of what a Zen 2 core normally gives with the Haswell kernel, which matches the low single-thread B1 (about 4 GB/s). Possible cause (not verified): the CPU is running well below its rated clock or power limit on this laptop. Open question for the team."
+ "notes": "Final F1_A. Quiet session (Claude app closed, plugged in, via run_bw_f1.bat); V11 and V12 pass (OpenBLAS via NumPy 2.5.4). Process-value CV 5.0%. Supersedes F1_A = 37.29 GFLOP/s (CV 8.0%) measured the same day with the app open."
 }
