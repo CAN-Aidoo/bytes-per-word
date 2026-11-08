@@ -1,0 +1,113 @@
+{
+ "development": false,
+ "power_plugged": true,
+ "runs_n": 5,
+ "F1_A_gflops": 37.29167209134791,
+ "process_values": [
+  37.29167209134791,
+  39.282283850044074,
+  39.16275118482032,
+  37.12031895197486,
+  31.20857500092545
+ ],
+ "cv_pct": 7.998640176678862,
+ "numpy": "2.5.4",
+ "V12_openblas_named": true,
+ "V11_pass": true,
+ "all_returncode_0": true,
+ "show_config": "Build Dependencies:\n  blas:\n    detection method: pkgconfig\n    found: true\n    include directory: C:/Users/runneradmin/AppData/Local/Temp/cibw-run-_ivn3drs/cp313-win_amd64/build/venv/Lib/site-packages/scipy_openblas64/include\n    lib directory: C:/Users/runneradmin/AppData/Local/Temp/cibw-run-_ivn3drs/cp313-win_amd64/build/venv/Lib/site-packages/scipy_openblas64/lib\n    name: scipy-openblas\n    openblas configuration: OpenBLAS 0.3.34.106.0  USE64BITINT DYNAMIC_ARCH NO_AFFINITY\n      Haswell MAX_THREADS=24\n    pc file directory: D:/a/numpy-release/numpy-release/.openblas\n    version: 0.3.34.106.0\n  lapack:\n    detection method: pkgconfig\n    found: true\n    include directory: C:/Users/runneradmin/AppData/Local/Temp/cibw-run-_ivn3drs/cp313-win_amd64/build/venv/Lib/site-packages/scipy_openblas64/include\n    lib directory: C:/Users/runneradmin/AppData/Local/Temp/cibw-run-_ivn3drs/cp313-win_amd64/build/venv/Lib/site-packages/scipy_openblas64/lib\n    name: scipy-openblas\n    openblas configuration: OpenBLAS 0.3.34.106.0  USE64BITINT DYNAMIC_ARCH NO_AFFINITY\n      Haswell MAX_THREADS=24\n    pc file directory: D:/a/numpy-release/numpy-release/.openblas\n    version: 0.3.34.106.0\nCompilers:\n  c:\n    commands: cl\n    linker: link\n    name: msvc\n    version: 19.44.35229\n  c++:\n    commands: cl\n    linker: link\n    name: msvc\n    version: 19.44.35229\n  cython:\n    commands: cython\n    linker: cython\n    name: cython\n    version: 3.3.0\nMachine Information:\n  build:\n    cpu: x86_64\n    endian: little\n    family: x86_64\n    system: windows\n  host:\n    cpu: x86_64\n    endian: little\n    family: x86_64\n    system: windows\nPython Information:\n  path: C:\\Users\\runneradmin\\AppData\\Local\\Temp\\build-env-ynnkfyrr\\Scripts\\python.exe\n  version: '3.13'\nSIMD Extensions:\n  baseline:\n  - X86_V2\n  found:\n  - X86_V3\n\n",
+ "runs": [
+  {
+   "n": 4096,
+   "numpy": "2.5.4",
+   "dtype": "float32",
+   "gflops_median": 37.29167209134791,
+   "gflops_all": [
+    38.93054218104735,
+    37.29167209134791,
+    36.328631202935966,
+    36.88736877177117,
+    39.3429261850335
+   ],
+   "min_time_s": 3.4933587000014086,
+   "openblas_in_config": true,
+   "checksum": 2029.8590698242188,
+   "affinity_ok": true,
+   "returncode": 0
+  },
+  {
+   "n": 4096,
+   "numpy": "2.5.4",
+   "dtype": "float32",
+   "gflops_median": 39.282283850044074,
+   "gflops_all": [
+    39.282283850044074,
+    38.30585531698964,
+    39.5626695482835,
+    39.368844069640865,
+    35.18977543663616
+   ],
+   "min_time_s": 3.473955500001466,
+   "openblas_in_config": true,
+   "checksum": 2029.8590698242188,
+   "affinity_ok": true,
+   "returncode": 0
+  },
+  {
+   "n": 4096,
+   "numpy": "2.5.4",
+   "dtype": "float32",
+   "gflops_median": 39.16275118482032,
+   "gflops_all": [
+    27.95493669594508,
+    39.16275118482032,
+    39.86514822688107,
+    38.67098143416886,
+    39.29079053390141
+   ],
+   "min_time_s": 3.447596699999849,
+   "openblas_in_config": true,
+   "checksum": 2029.8590698242188,
+   "affinity_ok": true,
+   "returncode": 0
+  },
+  {
+   "n": 4096,
+   "numpy": "2.5.4",
+   "dtype": "float32",
+   "gflops_median": 37.12031895197486,
+   "gflops_all": [
+    37.12031895197486,
+    33.6602159673093,
+    32.4723780019435,
+    37.53654432511322,
+    38.584397055083045
+   ],
+   "min_time_s": 3.5620345000024827,
+   "openblas_in_config": true,
+   "checksum": 2029.8590698242188,
+   "affinity_ok": true,
+   "returncode": 0
+  },
+  {
+   "n": 4096,
+   "numpy": "2.5.4",
+   "dtype": "float32",
+   "gflops_median": 31.20857500092545,
+   "gflops_all": [
+    39.94304976111833,
+    31.622760027151035,
+    31.20857500092545,
+    21.94704288204001,
+    27.144302349376147
+   ],
+   "min_time_s": 3.440872799998033,
+   "openblas_in_config": true,
+   "checksum": 2029.8590698242188,
+   "affinity_ok": true,
+   "returncode": 0
+  }
+ ],
+ "definition": "F1_A = median of 5 process values (GFLOP/s); each process = 1 warm-up + 5 timed 4096^3 float32 NumPy matmuls (FLOPs = 2 n^3); T_A = 6, mask_A via experiments/launch.py",
+ "notes": "One scored session, plugged in, Best performance. V11 and V12 pass (OpenBLAS 0.3.34 via numpy 2.5.4, Haswell kernel selected). Process-value CV 8.0%. Unscored diagnostic (same machine, not recorded as a constant): single-thread GEMM 9.8 GFLOP/s, 2 threads 18.0, 4 threads 33.6, 6 threads 41.8, 12 threads 31.5; 9.8 GFLOP/s per core is about a quarter of what a Zen 2 core normally gives with the Haswell kernel, which matches the low single-thread B1 (about 4 GB/s). Possible cause (not verified): the CPU is running well below its rated clock or power limit on this laptop. Open question for the team."
+}
