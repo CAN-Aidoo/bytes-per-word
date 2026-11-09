@@ -228,3 +228,81 @@ the Q1 decision is noise-dominated within about 2 pp of 20%; Host A rounds are c
 measures within-session precision only.
 
 Signed: statistician, 2026-11-05, sections 4-5 of PROTOCOL.md approved with the edits above
+
+## Re-confirmation of line 131 (G1 condition 1), 2026-11-09
+
+Brief: close G1 condition 1, verbatim from `.lab/GATE_LOG.md` (G1 entry): "(1) statistician re-confirms analysis/POWER.md:131 edit
+before the first scored run". Read: `.lab/STATE.md`, `.lab/OWNERS.md`, `.lab/GATE_LOG.md`, `.lab/ALERTS.md` (no RED; line 10 is the
+AMBER that asks for this), `.lab/QUESTION.md`, this file, `PROTOCOL.md` §1, §2, §4.5, §5.4, §5.5, §6 and ## Deviations. Earlier text of
+this file is unchanged.
+
+**What the edit says.** Line 131, verbatim: "The joint positive claim is Q1(Host A) ∧ Q1(Host B) ∧ Q2 ∧ Q3 (if kept), plus Q1 on the
+confirmation set after G2 (a V7 failure only labels the Q3 outcome "benchmark-dependent"; it adds no component; Director decision
+2026-11-05, pending statistician re-confirmation)." Summary (paraphrase): the components of the joint claim are unchanged; V7 is not a
+test and not a component; Q3 keeps its own pre-registered decision on B1/F1; a V7 failure changes only the label on the Q3 outcome.
+
+**Does the intersection-union argument still hold? Yes.**
+1. The component set is unchanged (Q1A, Q1B, Q2, Q3 if kept, Q1 confirmation). The IUT bound needs only that each inferential
+   component is a level-α test of its own null: P(joint pass | some H0_i true) ≤ P(pass_i | H0_i) ≤ α. `python3 analysis/power.py`,
+   S8, prints: "Any false joint claim needs at least one false component: P(joint pass | some H0_i) <= P(pass_i | H0_i) <= alpha." and
+   "Inferential components at one-sided alpha = 0.05: Q2, Q3; Q1 is a fixed point threshold (no alpha)." Removing V7 as a component
+   cannot raise this bound (adding a conjunct could only lower the joint pass rate; the bound never relied on V7).
+2. V7 is a function of validation-phase host constants only (B1, B2 of both hosts), evaluated before any model run (V7 row, and G1
+   condition 4). The Q3 sign-flip test is conditional on the measured R_B, R_F (S6 treats them as fixed), so its size under the
+   boundary null is the same whichever way V7 comes out. A V7 outcome therefore cannot be used to select a favourable Q3 analysis,
+   and a label chosen before the data adds no forking path.
+3. Numbers from the run of 2026-11-09 (output md5 7d707e04a8d864b7cbfda68fcdd492a9, NumPy 2.5.3, SciPy 1.18.1, about 5 s):
+   Q3 boundary-null pass rate of rule a∧b∧c, S6: n = 5: 0.038 (ρ = 1.5), 0.033 (ρ = 2.0); n = 6: 0.045 (ρ = 1.5), 0.044 (ρ = 2.0);
+   n = 3 or 4: 0.000. Q2 boundary null, S5: 0.019 to 0.031 over the layouts that can pass. All ≤ 0.05, so each component's level
+   holds and the joint claim's family-wise false-positive rate stays ≤ 0.05.
+
+**Reproducibility note (does not change the verdict).** The Monte Carlo rows of Table "Operating characteristics" and S7 do not
+reproduce to the third decimal in this environment, while every exact quantity (S1 required CVs, S4) does. Examples, table vs this
+run: Q3 n = 5, ρ = 1.5: 0.893 / 0.297 / 0.033 vs 0.895 / 0.317 / 0.038; Q3 n = 6, ρ = 1.5: 0.990 / 0.472 / 0.049 vs 0.991 / 0.500 /
+0.045; Q2 4×LLC cal excluded: 0.855 vs 0.847; S7 correlation range −0.307 to −0.499 vs −0.308 to −0.495. Likely cause: a different
+NumPy build from the original run (the original version is not recorded in this file; `power.py` does not pin it; this workspace has
+NumPy 2.5.3, `experiments/requirements.txt` pins 2.5.4). UNVERIFIED. No conclusion changes (every boundary null stays ≤ 0.05). The
+tables are left as written, per brief; `power.py` should record its NumPy/SciPy versions in its header line (already printed) and
+POWER.md should state the versions that produced the tables.
+
+**Consistency with PROTOCOL.md.**
+- §5.4 (line 361-362), verbatim: "if bytes loses against F2 or with B2 the paper must say so (claim template T-narrow, §9), though only
+  the F1/B1 comparison is the refutation test. A V7 failure (§6) adds the "benchmark-dependent" label to the Q3 outcome."
+  Consistent: line 131 says the same (label only; B1/F1 decides).
+- §5.5 (line 367-368), verbatim: "The positive claim requires Q1 on both hosts **and** Q2 **and** Q3 (when kept): an intersection-union
+  test, so each component is tested at its own one-sided 5% level without correction and the family-wise false-positive rate for the
+  joint claim stays ≤ 5%." Consistent. Minor: §5.5 does not list the confirmation-set Q1 that line 131 and §1 (ii) include; this is
+  harmless for error control (Q1 has no α; an extra conjunct only lowers the joint rate) and needs no change.
+- §6 V7 (line 403), verbatim: "if they disagree more, Q3 is still decided by the B1/F1 test of §5.4 alone; B2 is not a second test.
+  Both B1 and B2 results are reported, and the Q3 outcome, whether confirmation or refutation, is labelled "benchmark-dependent" and
+  no cross-machine claim is made in either direction." Consistent on the decision ("decided by the B1/F1 test of §5.4 alone").
+  **Open point (the note):** the phrase "no cross-machine claim is made in either direction" is not tied to §1 or §9. §1 (iv) counts
+  Q3 in the positive result unless dropped "by the pre-registered rule of §4.5" (V7 is not that rule), and §1's negative result counts
+  a Q3 refutation; §9 has no template for a V7-labelled Q3. Read literally, a V7 failure with a Q3 pass could yield a §1 positive
+  result whose T-pos text makes the cross-machine claim V7 forbids, and a Q3 refutation would be both a §1 negative and "no claim".
+  Both possible readings (Q3 stays a component and only the wording changes; or Q3 is treated like a §4.5 drop) keep the family-wise
+  rate ≤ 0.05, so this is a reporting gap, not an error-control gap. Line 131 chooses the first reading. It must be written into the
+  protocol before V7 is evaluated (it can be, since V7 is not yet evaluable: B1_B is not frozen, Deviations entry of 2026-11-09).
+
+**Proposed dated deviation (for the protocol-architect to append to ## Deviations with the author's approval; not applied here):**
+"- 2026-11-09 (V7 failure and the Q3 outcome, P2; clarifies §1, §5.4, §6 V7 and §9; written before V7 is evaluated and before any
+model run; proposed by the statistician, `analysis/POWER.md` re-confirmation of line 131): If V7 fails, Q3 is still run and decided
+exactly as in §5.4 (B1/F1 only) and stays a component of the positive result §1 (iv) and of the negative result §1; V7 adds, removes
+or replaces no component. A V7 failure changes the wording only: both B1 and B2 ratios are reported, the Q3 outcome carries the label
+"benchmark-dependent", and the paper uses T-pos-V7 or T-neg-ratio-V7 instead of T-pos or T-neg-ratio. T-pos-V7: T-pos with
+"and explained quantisation and cross-machine speed ratios better" replaced by "and explained quantisation speed ratios, and
+cross-machine speed ratios measured with the B1 read benchmark, better", followed by "The cross-machine result is benchmark-dependent:
+the two bandwidth benchmarks disagreed on the host ratio by more than 15% (V7)." T-neg-ratio-V7: T-neg-ratio for the cross-machine
+test followed by the same sentence. "No cross-machine claim is made in either direction" in V7 means no cross-machine statement beyond
+this labelled two-host B1 result."
+
+**Not caused by the edit, but on the Q3 component's level (for the Director; not blocking the first scored grid run).** The
+statement that host-constant noise is small against the Q3 decision margin (Dependence paragraph; S6: SE of ln(B1_B/B1_A) 0.0079 to
+0.0238, 0.039 to 0.117 of the half-gap) was sized for B1 CV 1% to 3% over 5 process runs. The 2026-11-09 deviation sets Host B B1 to
+the median of 15 runs with CV ≤ 10%, outside that range. This common-mode error is not controlled by resampling files and bears on
+whether Q3 stays at its 5% level under a null defined on true host ratios; it also makes V7 (15% tolerance) more likely to fail by
+noise, which under line 131 affects only the label. `power.py` does not yet compute the new case, so no number is given here. It must
+be re-run with the Host B noise rule before any Q3 analysis (Q3 needs scored cells on both hosts, so the first Host A grid run is not
+affected).
+
+Re-confirmed: statistician, 2026-11-09, analysis/POWER.md:131 confirmed with the note above
