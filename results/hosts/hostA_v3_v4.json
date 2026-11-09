@@ -1,0 +1,40 @@
+{
+ "V3": {
+  "status": "partial_pass_host_A_only",
+  "detail": "SHA-256 of both model files on Host A equals the Hugging Face LFS hash for the same revision (independent source) and the value in experiments/MODELS.csv (created 2026-11-09 at the first logged hashes). The cross-host identical-hash check needs Host B and is still open.",
+  "files": [
+   {
+    "file": "Qwen3-1.7B-Q8_0.gguf",
+    "sha256": "9860780f3a1fab1f8f909a1b549ea3e62c22d19ab1a492b3a1026b38c5bd3ec3",
+    "matches_hf": true
+   },
+   {
+    "file": "smollm2-360m-instruct-q8_0.gguf",
+    "sha256": "48ab3034d0dd401fbc721eb1df3217902fee7dab9078992d66431f09b7750201",
+    "matches_hf": true
+   }
+  ]
+ },
+ "V4": {
+  "status": "pass",
+  "detail": "Per-tensor n_bytes (n_elements / block_size * type_size) equals gguf-py's tensor n_bytes for every tensor; file size minus the sum of tensor bytes is under 1%. Checked with a scratch script equal to analysis/bytes_per_token.py's formula, on the development model and the calibration file.",
+  "files": [
+   {
+    "file": "smollm2-360m-instruct-q8_0.gguf",
+    "n_tensors": 290,
+    "mismatching_tensors": 0,
+    "sum_tensor_bytes": 384618240,
+    "file_bytes": 386404992,
+    "remainder_pct": 0.4624
+   },
+   {
+    "file": "Qwen3-1.7B-Q8_0.gguf",
+    "n_tensors": 311,
+    "mismatching_tensors": 0,
+    "sum_tensor_bytes": 2159087616,
+    "file_bytes": 2165039200,
+    "remainder_pct": 0.2749
+   }
+  ]
+ }
+}

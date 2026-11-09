@@ -1,0 +1,45 @@
+{
+ "cell": "Host A, Qwen3-1.7B Q8_0, depth 0, T_A = 6 (calibration cell; excluded from every APE, MAPE and Q1 statistic)",
+ "inputs": {
+  "tok_s_cal": 4.5371444,
+  "B1_A_Bps": 15838400000.0,
+  "B2_A_Bps": 8681600000.0,
+  "F1_A_flops": 52068901604.905495,
+  "F2_A_flops": 37910586688.79872,
+  "pp512_A_toks": 11.01763,
+  "D_cal_bytes": 1835817088.0,
+  "W_read_bytes": 1828477056,
+  "KV_bytes": 7340032.0,
+  "P_active_cal": 1720451072,
+  "model_file": "Qwen3-1.7B-Q8_0.gguf"
+ },
+ "eta": 0.5258970110770979,
+ "eta_prime": 0.2998309818797248,
+ "eta_prime2": 0.41180765736369795,
+ "calibration_flags": {
+  "sentinel": "closing sentinel 7.76% from the opening one (limit 5%): block flagged",
+  "memory": "rounds 8, 9, 10 free memory below 1.0 GiB (0.42 to 0.79 GiB): flagged, not repeated"
+ },
+ "calibration_status": "scored_and_flagged_approved_by_author",
+ "session_sensitivity": {
+  "2026-11-09 15:28 (scored)": {
+   "tok_s_cal": 4.5371444,
+   "eta": 0.5258970110770979,
+   "eta_prime": 0.2998309818797248,
+   "eta_prime2": 0.41180765736369795
+  },
+  "2026-11-09 14:29": {
+   "tok_s_cal": 4.466,
+   "eta": 0.5176507169289828,
+   "eta_prime": 0.2951295015152815,
+   "eta_prime2": 0.40535033396474557
+  },
+  "2026-11-08 night": {
+   "tok_s_cal": 5.384,
+   "eta": 0.6240554097504798,
+   "eta_prime": 0.3557942758975091,
+   "eta_prime2": 0.4886713385728147
+  }
+ },
+ "notes": "Frozen once; refitting forbidden (PROTOCOL 4.3). The spread between calibration sessions (1.6% between the two 2026-11-09 sessions, about 16% to 2026-11-08) is uncertainty on eta, eta', eta'2 and must be carried into the Host A prediction intervals."
+}
