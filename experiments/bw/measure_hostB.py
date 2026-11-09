@@ -53,13 +53,59 @@ def cv(xs):
     return 100.0 * statistics.pstdev(xs) / statistics.mean(xs) if len(xs) > 1 else 0.0
 
 
+def blocks_main(a):
+    """PROTOCOL 2026-11-09 Deviations entry: B1_B = median of 15 process runs in 3 blocks of 5, >= gap minutes apart; V9 passes if
+    CV of the 15 values <= 10%. B1_B is taken at 4 x LLC (1040 MiB, section 3.3); V5 compares it with 8 x LLC (2080 MiB, same
+    blocks). B2 (median of 5 process runs, CV <= 3%) is taken in block 1. Threads: the first --threads value (T_B = 4)."""
+    import time
+    t = int(a.threads.split(",")[0])
+    cpus = list(range(t))
+    e1, e2 = os.path.join(a.bin, "stream_read"), os.path.join(a.bin, "stream_b2")
+    s0 = steal()
+    blocks = []
+    for i in range(a.blocks):
+        if i:
+            time.sleep(a.gap_min * 60)
+        blk = {"started_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+               "B1_1040MiB": [b1(e1, 1040, cpus) for _ in range(a.runs)],
+               "B1_2080MiB": [b1(e1, 2080, cpus) for _ in range(a.runs)]}
+        if i == 0:
+            blk["B2"] = [b2(e2, cpus) for _ in range(a.runs)]
+        blocks.append(blk)
+        print(f"block {i + 1} done {blk['started_utc']}", file=sys.stderr, flush=True)
+    s1 = steal()
+    b1_4 = [r["gbps"] for b in blocks for r in b["B1_1040MiB"]]
+    b1_8 = [r["gbps"] for b in blocks for r in b["B1_2080MiB"]]
+    b2v = [r["gbps"] for r in blocks[0]["B2"]]
+    allr = [r for b in blocks for k in ("B1_1040MiB", "B1_2080MiB", "B2") for r in b.get(k, [])]
+    m4, m8 = statistics.median(b1_4), statistics.median(b1_8)
+    chk = {"V5_plateau_diff_pct": 100.0 * abs(m4 - m8) / m8, "V5_pass": 100.0 * abs(m4 - m8) / m8 <= 5.0,
+           "V9_B1_cv_pct_15runs": cv(b1_4), "V9_B1_pass": cv(b1_4) <= 10.0,
+           "V9_B2_cv_pct": cv(b2v), "V9_B2_pass": cv(b2v) <= 3.0,
+           "V11_pass": all(r["affinity_ok"] for r in allr),
+           "V13_min_ticks": min(r["min_ticks"] for r in allr), "V13_pass": min(r["min_ticks"] for r in allr) >= 20,
+           "checksums_ok": all(r["checksum_ok"] for r in allr),
+           "steal_pct_of_cpu_time": 100.0 * (s1[0] - s0[0]) / max(1, s1[1] - s0[1])}
+    chk["gating_pass"] = all(chk[k] for k in ("V5_pass", "V9_B1_pass", "V9_B2_pass", "V11_pass", "V13_pass", "checksums_ok"))
+    out = {"frozen": False, "threads": t, "mask_cpus": cpus, "gap_min": a.gap_min, "B1_B_gbps": m4, "B1_B_at_8xLLC_gbps": m8,
+           "B2_B_gbps": statistics.median(b2v), "block_medians_B1_1040MiB": [statistics.median(r["gbps"] for r in b["B1_1040MiB"]) for b in blocks],
+           "checks": chk, "blocks": blocks}
+    os.makedirs(os.path.dirname(os.path.abspath(a.out)), exist_ok=True)
+    json.dump(out, open(a.out, "w"), indent=1)
+    print(json.dumps({k: out[k] for k in ("B1_B_gbps", "B1_B_at_8xLLC_gbps", "B2_B_gbps", "block_medians_B1_1040MiB", "checks")}, indent=1))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--bin", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--threads", default="2,4")
     ap.add_argument("--runs", type=int, default=5)
+    ap.add_argument("--blocks", type=int, default=0, help="amended V9 mode: this many blocks of --runs runs, --gap-min apart")
+    ap.add_argument("--gap-min", type=float, default=10.0)
     a = ap.parse_args()
+    if a.blocks:
+        return blocks_main(a)
     e1, e2 = os.path.join(a.bin, "stream_read"), os.path.join(a.bin, "stream_b2")
     out = {"frozen": False, "llc_mib": 260, "runs_per_item": a.runs, "configs": {}}
     for t in [int(x) for x in a.threads.split(",")]:
