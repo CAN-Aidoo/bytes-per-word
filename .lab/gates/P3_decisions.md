@@ -45,3 +45,6 @@ has run. Each approved item is appended to PROTOCOL.md `## Deviations` as a date
 ## D5. Statistician note (2026-11-09 re-confirmation of POWER.md:131), needed before V7 is evaluated, not before the Host A grid
 The statistician's section at the end of `analysis/POWER.md` contains a proposed dated deviation tying V7's "no cross-machine claim in
 either direction" to the §9 claim templates. To be appended before any Q3 analysis.
+
+## Author decision
+2026-11-09: D1, D2, D3 approved by the author in chat ("approve D1–D3"); appended to PROTOCOL.md ## Deviations verbatim. D4 implemented as described (information). D5 pending, before any Q3 analysis.
