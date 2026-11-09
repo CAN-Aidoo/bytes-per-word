@@ -1,0 +1,467 @@
+{
+ "sentinel_start": {
+  "model": "smollm2-360m-instruct-q8_0.gguf",
+  "rounds": [
+   {
+    "value_toks": 13.85442,
+    "samples": [
+     12.7676,
+     16.1541,
+     16.082,
+     15.5317,
+     8.73675
+    ],
+    "pre": {
+     "cpu_pct_5s": 1.9,
+     "avail_gib": 3.68,
+     "plugged": true
+    },
+    "post": {
+     "cpu_pct_5s": 49.5,
+     "avail_gib": 3.56,
+     "plugged": true
+    },
+    "monitor": {
+     "min_avail_gib": 3.17,
+     "all_plugged": true,
+     "pages_in_samples": 46,
+     "pages_in_nonzero_after_load": 20,
+     "pages_in_max_after_load": 4990.702064
+    },
+    "start_flagged_not_quiet": false,
+    "round_flags": [],
+    "returncode": 0,
+    "backends": "CPU",
+    "build_commit": "3259ab6",
+    "cpu_mask": "0x555",
+    "cpu_strict": true
+   }
+  ],
+  "values": [
+   13.85442
+  ],
+  "mean_toks": 13.85442,
+  "between_round_cv_pct": null
+ },
+ "calibration_cell": {
+  "model": "Qwen3-1.7B-Q8_0.gguf",
+  "rounds": [
+   {
+    "value_toks": 4.661922,
+    "samples": [
+     4.56953,
+     4.65368,
+     4.63265,
+     4.69587,
+     4.75788
+    ],
+    "pre": {
+     "cpu_pct_5s": 4.6,
+     "avail_gib": 3.57,
+     "plugged": true
+    },
+    "post": {
+     "cpu_pct_5s": 4.7,
+     "avail_gib": 3.99,
+     "plugged": true
+    },
+    "monitor": {
+     "min_avail_gib": 1.68,
+     "all_plugged": true,
+     "pages_in_samples": 145,
+     "pages_in_nonzero_after_load": 60,
+     "pages_in_max_after_load": 52355.21627
+    },
+    "start_flagged_not_quiet": false,
+    "round_flags": [],
+    "returncode": 0,
+    "backends": "CPU",
+    "build_commit": "3259ab6",
+    "cpu_mask": "0x555",
+    "cpu_strict": true
+   },
+   {
+    "value_toks": 4.601914,
+    "samples": [
+     4.53502,
+     4.81319,
+     4.7492,
+     4.72896,
+     4.1832
+    ],
+    "pre": {
+     "cpu_pct_5s": 1.6,
+     "avail_gib": 3.99,
+     "plugged": true
+    },
+    "post": {
+     "cpu_pct_5s": 14.5,
+     "avail_gib": 3.92,
+     "plugged": true
+    },
+    "monitor": {
+     "min_avail_gib": 1.84,
+     "all_plugged": true,
+     "pages_in_samples": 144,
+     "pages_in_nonzero_after_load": 60,
+     "pages_in_max_after_load": 47769.920619
+    },
+    "start_flagged_not_quiet": false,
+    "round_flags": [],
+    "returncode": 0,
+    "backends": "CPU",
+    "build_commit": "3259ab6",
+    "cpu_mask": "0x555",
+    "cpu_strict": true
+   },
+   {
+    "value_toks": 4.79178,
+    "samples": [
+     4.81605,
+     4.80027,
+     4.817,
+     4.70742,
+     4.81817
+    ],
+    "pre": {
+     "cpu_pct_5s": 1.2,
+     "avail_gib": 3.96,
+     "plugged": true
+    },
+    "post": {
+     "cpu_pct_5s": 3.1,
+     "avail_gib": 4.03,
+     "plugged": true
+    },
+    "monitor": {
+     "min_avail_gib": 1.91,
+     "all_plugged": true,
+     "pages_in_samples": 140,
+     "pages_in_nonzero_after_load": 48,
+     "pages_in_max_after_load": 51741.46923
+    },
+    "start_flagged_not_quiet": false,
+    "round_flags": [],
+    "returncode": 0,
+    "backends": "CPU",
+    "build_commit": "3259ab6",
+    "cpu_mask": "0x555",
+    "cpu_strict": true
+   },
+   {
+    "value_toks": 4.786033,
+    "samples": [
+     4.48086,
+     4.88679,
+     4.90966,
+     4.85039,
+     4.80246
+    ],
+    "pre": {
+     "cpu_pct_5s": 3.9,
+     "avail_gib": 4.05,
+     "plugged": true
+    },
+    "post": {
+     "cpu_pct_5s": 2.7,
+     "avail_gib": 4.06,
+     "plugged": true
+    },
+    "monitor": {
+     "min_avail_gib": 1.96,
+     "all_plugged": true,
+     "pages_in_samples": 137,
+     "pages_in_nonzero_after_load": 42,
+     "pages_in_max_after_load": 35610.109125
+    },
+    "start_flagged_not_quiet": false,
+    "round_flags": [],
+    "returncode": 0,
+    "backends": "CPU",
+    "build_commit": "3259ab6",
+    "cpu_mask": "0x555",
+    "cpu_strict": true
+   },
+   {
+    "value_toks": 4.417006,
+    "samples": [
+     4.535,
+     3.96476,
+     3.9939,
+     4.76924,
+     4.82213
+    ],
+    "pre": {
+     "cpu_pct_5s": 2.0,
+     "avail_gib": 4.06,
+     "plugged": true
+    },
+    "post": {
+     "cpu_pct_5s": 2.3,
+     "avail_gib": 3.96,
+     "plugged": true
+    },
+    "monitor": {
+     "min_avail_gib": 1.83,
+     "all_plugged": true,
+     "pages_in_samples": 150,
+     "pages_in_nonzero_after_load": 88,
+     "pages_in_max_after_load": 38677.46374
+    },
+    "start_flagged_not_quiet": false,
+    "round_flags": [],
+    "returncode": 0,
+    "backends": "CPU",
+    "build_commit": "3259ab6",
+    "cpu_mask": "0x555",
+    "cpu_strict": true
+   },
+   {
+    "value_toks": 4.774058,
+    "samples": [
+     4.84229,
+     4.90623,
+     4.98381,
+     4.67375,
+     4.46421
+    ],
+    "pre": {
+     "cpu_pct_5s": 3.5,
+     "avail_gib": 3.98,
+     "plugged": true
+    },
+    "post": {
+     "cpu_pct_5s": 14.2,
+     "avail_gib": 3.9,
+     "plugged": true
+    },
+    "monitor": {
+     "min_avail_gib": 1.82,
+     "all_plugged": true,
+     "pages_in_samples": 142,
+     "pages_in_nonzero_after_load": 60,
+     "pages_in_max_after_load": 41556.925482
+    },
+    "start_flagged_not_quiet": false,
+    "round_flags": [],
+    "returncode": 0,
+    "backends": "CPU",
+    "build_commit": "3259ab6",
+    "cpu_mask": "0x555",
+    "cpu_strict": true
+   },
+   {
+    "value_toks": 4.025074,
+    "samples": [
+     4.65551,
+     4.68324,
+     3.31245,
+     3.9219,
+     3.55227
+    ],
+    "pre": {
+     "cpu_pct_5s": 1.8,
+     "avail_gib": 3.95,
+     "plugged": true
+    },
+    "post": {
+     "cpu_pct_5s": 9.7,
+     "avail_gib": 3.25,
+     "plugged": true
+    },
+    "monitor": {
+     "min_avail_gib": 1.15,
+     "all_plugged": true,
+     "pages_in_samples": 166,
+     "pages_in_nonzero_after_load": 140,
+     "pages_in_max_after_load": 34315.879648
+    },
+    "start_flagged_not_quiet": false,
+    "round_flags": [],
+    "returncode": 0,
+    "backends": "CPU",
+    "build_commit": "3259ab6",
+    "cpu_mask": "0x555",
+    "cpu_strict": true
+   },
+   {
+    "value_toks": 4.495938,
+    "samples": [
+     4.55108,
+     4.79229,
+     4.84979,
+     3.94413,
+     4.3424
+    ],
+    "pre": {
+     "cpu_pct_5s": 1.5,
+     "avail_gib": 0.9,
+     "plugged": true
+    },
+    "post": {
+     "cpu_pct_5s": 4.9,
+     "avail_gib": 2.92,
+     "plugged": true
+    },
+    "monitor": {
+     "min_avail_gib": 0.42,
+     "all_plugged": true,
+     "pages_in_samples": 156,
+     "pages_in_nonzero_after_load": 95,
+     "pages_in_max_after_load": 42395.460763
+    },
+    "start_flagged_not_quiet": false,
+    "round_flags": [
+     "avail_below_1GiB"
+    ],
+    "returncode": 0,
+    "backends": "CPU",
+    "build_commit": "3259ab6",
+    "cpu_mask": "0x555",
+    "cpu_strict": true
+   },
+   {
+    "value_toks": 4.19982,
+    "samples": [
+     3.53881,
+     4.56007,
+     4.71922,
+     4.69458,
+     3.48641
+    ],
+    "pre": {
+     "cpu_pct_5s": 2.4,
+     "avail_gib": 2.92,
+     "plugged": true
+    },
+    "post": {
+     "cpu_pct_5s": 37.7,
+     "avail_gib": 2.78,
+     "plugged": true
+    },
+    "monitor": {
+     "min_avail_gib": 0.79,
+     "all_plugged": true,
+     "pages_in_samples": 163,
+     "pages_in_nonzero_after_load": 115,
+     "pages_in_max_after_load": 57091.900218
+    },
+    "start_flagged_not_quiet": false,
+    "round_flags": [
+     "avail_below_1GiB"
+    ],
+    "returncode": 0,
+    "backends": "CPU",
+    "build_commit": "3259ab6",
+    "cpu_mask": "0x555",
+    "cpu_strict": true
+   },
+   {
+    "value_toks": 4.617899,
+    "samples": [
+     4.77294,
+     4.54189,
+     4.33872,
+     4.73554,
+     4.70039
+    ],
+    "pre": {
+     "cpu_pct_5s": 4.1,
+     "avail_gib": 2.75,
+     "plugged": true
+    },
+    "post": {
+     "cpu_pct_5s": 4.5,
+     "avail_gib": 2.87,
+     "plugged": true
+    },
+    "monitor": {
+     "min_avail_gib": 0.77,
+     "all_plugged": true,
+     "pages_in_samples": 145,
+     "pages_in_nonzero_after_load": 87,
+     "pages_in_max_after_load": 55684.211966
+    },
+    "start_flagged_not_quiet": false,
+    "round_flags": [
+     "avail_below_1GiB"
+    ],
+    "returncode": 0,
+    "backends": "CPU",
+    "build_commit": "3259ab6",
+    "cpu_mask": "0x555",
+    "cpu_strict": true
+   }
+  ],
+  "values": [
+   4.661922,
+   4.601914,
+   4.79178,
+   4.786033,
+   4.417006,
+   4.774058,
+   4.025074,
+   4.495938,
+   4.19982,
+   4.617899
+  ],
+  "mean_toks": 4.5371444,
+  "between_round_cv_pct": 5.697101343739144
+ },
+ "sentinel_end": {
+  "model": "smollm2-360m-instruct-q8_0.gguf",
+  "rounds": [
+   {
+    "value_toks": 12.778854,
+    "samples": [
+     13.4735,
+     13.5303,
+     12.7409,
+     11.246,
+     12.9037
+    ],
+    "pre": {
+     "cpu_pct_5s": 4.3,
+     "avail_gib": 2.87,
+     "plugged": true
+    },
+    "post": {
+     "cpu_pct_5s": 16.5,
+     "avail_gib": 2.87,
+     "plugged": true
+    },
+    "monitor": {
+     "min_avail_gib": 2.4,
+     "all_plugged": true,
+     "pages_in_samples": 48,
+     "pages_in_nonzero_after_load": 27,
+     "pages_in_max_after_load": 5903.650674
+    },
+    "start_flagged_not_quiet": false,
+    "round_flags": [],
+    "returncode": 0,
+    "backends": "CPU",
+    "build_commit": "3259ab6",
+    "cpu_mask": "0x555",
+    "cpu_strict": true
+   }
+  ],
+  "values": [
+   12.778854
+  ],
+  "mean_toks": 12.778854,
+  "between_round_cv_pct": null
+ },
+ "sentinel_deviation_pct": 7.763341951521598,
+ "sentinel_ok_5pct": false,
+ "any_round_flagged": true,
+ "flags": {
+  "sentinel": "closing sentinel 7.76% from the opening one (limit 5%): block flagged",
+  "memory": "rounds 8, 9, 10 free memory below 1.0 GiB (0.42 to 0.79 GiB): flagged, not repeated"
+ },
+ "definition": "Host A calibration cell: Qwen3-1.7B Q8_0, depth 0, T_A = 6, full PROTOCOL 3.7 flags, 10 fixed rounds (each = fresh llama-bench process, warm-up + 5 reps of tg128, round value = mean); tok/s_cal = mean of the 10 round values",
+ "tok_s_cal": 4.5371444,
+ "tok_s_cal_clean_rounds_only": 4.579683857142857,
+ "status": "scored_and_flagged_approved_by_author",
+ "notes": "Approved by the author in chat 2026-11-09 under PROTOCOL 5.7 (re-run block replaces the flagged block only if its sentinels are within 5%; otherwise the block with the smaller sentinel deviation is scored and flagged). Sessions: 2026-11-08 night: calibration mean 5.384 tok/s, sentinels 17.294/17.330 (0.21%), rounds 5 to 10 below 1.0 GiB free; its full JSON was overwritten by a later run, per-round values only in the session log (5.353, 5.431, 5.379, 5.149, 5.118, 5.541, 5.224, 5.588, 5.566, 5.493); not used. 2026-11-09 11:01 invalid (Claude app open, 1.4 tok/s). 2026-11-09 14:29 (hostA_cal_20261109_1357.json): mean 4.466, CV 5.26%, sentinels 10.41/16.12 (54.8%), no round flags, opening sentinel during warm-up. 2026-11-09 15:28 (this file): mean 4.537, CV 5.7%, sentinels 13.85/12.78 (7.76%). The two 2026-11-09 sessions agree within 1.6%; both are about 16% below the 2026-11-08 session. Carry that spread into the eta uncertainty in analysis/."
+}
