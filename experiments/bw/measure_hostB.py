@@ -1,6 +1,6 @@
 """Host B bandwidth constants B1_B and B2_B and checks V5, V9, V11, V13 (PROTOCOL 3.3, section 6), Linux.
 
-Usage: ~/hostB-work/venv/bin/python measure_hostB.py --bin <dir with stream_read and stream_b2_1068> --out results/hosts/hostB_bw.json
+Usage: ~/hostB-work/venv/bin/python measure_hostB.py --bin <dir with stream_read and stream_b2> --out results/hosts/hostB_bw.json
 Measures every thread configuration given by --threads (default 2,4; mask = first logical CPUs 0..T-1, one thread per vCPU,
 the VM exposes 1 thread/core). PROTOCOL 3.7 fixes T_B = 2 (written when Host B had 2 vCPUs); the 4-vCPU configuration is
 measured as well so the author can decide T_B. Nothing here is frozen: the output is marked "frozen": false.
@@ -60,7 +60,7 @@ def main():
     ap.add_argument("--threads", default="2,4")
     ap.add_argument("--runs", type=int, default=5)
     a = ap.parse_args()
-    e1, e2 = os.path.join(a.bin, "stream_read"), os.path.join(a.bin, "stream_b2_1068")
+    e1, e2 = os.path.join(a.bin, "stream_read"), os.path.join(a.bin, "stream_b2")
     out = {"frozen": False, "llc_mib": 260, "runs_per_item": a.runs, "configs": {}}
     for t in [int(x) for x in a.threads.split(",")]:
         cpus = list(range(t))

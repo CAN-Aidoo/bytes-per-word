@@ -46,7 +46,9 @@ echo "$STREAM_SHA  bw/stream.c" | sha256sum -c -
 cp "$REPO_ROOT/experiments/bw/make_b2.py" "$REPO_ROOT/experiments/bw/stream_read.c" bw/
 python3 bw/make_b2.py bw/stream.c bw/stream_b2.c
 gcc -O3 -march=native -fopenmp bw/stream_read.c -o bw/stream_read -lm
-gcc -O3 -march=native -fopenmp bw/stream_b2.c -o bw/stream_b2 -lm
+# B2 arrays must be >= 4 x LLC (PROTOCOL 3.3: Host B >= 1040 MiB per array); STREAM's default 10M doubles (76 MiB) sits inside
+# the 260 MiB L3. 140e6 doubles = 1068 MiB per array; three static arrays exceed 2 GiB, hence -mcmodel=medium.
+gcc -O3 -march=native -fopenmp -mcmodel=medium -DSTREAM_ARRAY_SIZE=140000000 bw/stream_b2.c -o bw/stream_b2 -lm
 ls -l bw
 echo "quick smoke test (not a measurement): B1 64 MiB, 2 threads"
 OMP_NUM_THREADS=2 ./bw/stream_read 64 | head -c 400; echo
