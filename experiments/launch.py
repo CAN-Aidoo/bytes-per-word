@@ -16,6 +16,25 @@ import time
 import psutil
 
 
+def linux_thread_affinities(pid):
+    """Linux: allowed-CPU set of every thread of pid (OMP_PROC_BIND=close binds each thread to its own place, so the
+    main thread alone shows only its own CPU). Returns a list of sorted CPU lists, or None if /proc is unreadable."""
+    out = []
+    try:
+        for tid in os.listdir(f"/proc/{pid}/task"):
+            with open(f"/proc/{pid}/task/{tid}/status") as f:
+                for line in f:
+                    if line.startswith("Cpus_allowed_list:"):
+                        cpus = set()
+                        for part in line.split(":")[1].strip().split(","):
+                            lo, _, hi = part.partition("-")
+                            cpus.update(range(int(lo), int(hi or lo) + 1))
+                        out.append(sorted(cpus))
+    except OSError:
+        return None
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--threads", type=int)
@@ -41,11 +60,16 @@ def main():
     proc = subprocess.Popen(cmd, env=env)
     # Sample the child's affinity as early as possible (short runs such as B1 at 32 MiB finish in well under 0.3 s),
     # then once more after 0.3 s if it is still running; the last successful sample is recorded.
+    thread_aff = None  # Linux only: per-thread affinities (V11 on Host B)
     sampled = None  # stays None only if the process finished before any sample: V11 cannot be evidenced for this run
     t_end = time.time() + 0.3
     while True:
         try:
             sampled = psutil.Process(proc.pid).cpu_affinity()
+            if sys.platform.startswith("linux"):
+                th = linux_thread_affinities(proc.pid)
+                if th:
+                    thread_aff = th
         except psutil.Error:
             break
         if time.time() >= t_end or proc.poll() is not None:
@@ -57,7 +81,10 @@ def main():
         "threads": threads,
         "mask_cpus": cpus,
         "sampled_affinity": sampled,
-        "affinity_matches_mask": sampled == cpus,
+        "thread_affinities": thread_aff,
+        # Linux: every thread inside the mask and the threads together cover the mask; Windows: process affinity equals mask
+        "affinity_matches_mask": (all(set(t) <= set(cpus) for t in thread_aff) and set().union(*map(set, thread_aff)) == set(cpus))
+        if thread_aff else sampled == cpus,
         "power_plugged": None if battery is None else battery.power_plugged,
         "returncode": rc,
     }

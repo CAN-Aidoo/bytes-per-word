@@ -1,0 +1,267 @@
+{
+ "frozen": false,
+ "llc_mib": 260,
+ "runs_per_item": 5,
+ "configs": {
+  "T2": {
+   "mask_cpus": [
+    0,
+    1
+   ],
+   "B1_gbps_at_4xLLC": 24.4027,
+   "B1_gbps_at_8xLLC": 24.5183,
+   "B2_gbps": 25.590400000000002,
+   "medians": {
+    "B1_1040MiB": 24.4027,
+    "B1_2080MiB": 24.5183,
+    "B2": 25.590400000000002
+   },
+   "cv_pct": {
+    "B1_1040MiB": 6.185188591761559,
+    "B1_2080MiB": 6.5449664692732545,
+    "B2": 0.5692569827228146
+   },
+   "checks": {
+    "V5_plateau_diff_pct": 0.47148456459053273,
+    "V5_pass": true,
+    "V9_B1_cv_pct": 6.5449664692732545,
+    "V9_B2_cv_pct": 0.5692569827228146,
+    "V9_pass": false,
+    "V11_pass": true,
+    "V13_min_ticks": 39679.6,
+    "V13_pass": true,
+    "checksums_ok": true,
+    "steal_pct_of_cpu_time": 0.4481071336595416
+   },
+   "runs": {
+    "B1_1040MiB": [
+     {
+      "gbps": 23.7699,
+      "min_ticks": 40722.9,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 21.7441,
+      "min_ticks": 49626.1,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 25.2948,
+      "min_ticks": 40542.2,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 26.1603,
+      "min_ticks": 39679.6,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 24.4027,
+      "min_ticks": 40329.9,
+      "checksum_ok": true,
+      "affinity_ok": true
+     }
+    ],
+    "B1_2080MiB": [
+     {
+      "gbps": 22.3173,
+      "min_ticks": 88713.3,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 22.1721,
+      "min_ticks": 81970.8,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 24.5183,
+      "min_ticks": 82390.7,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 24.9013,
+      "min_ticks": 80182.1,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 26.2638,
+      "min_ticks": 80111.1,
+      "checksum_ok": true,
+      "affinity_ok": true
+     }
+    ],
+    "B2": [
+     {
+      "gbps": 25.605700000000002,
+      "min_ticks": 82929.0,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 25.590400000000002,
+      "min_ticks": 60093.0,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 25.4945,
+      "min_ticks": 70183.0,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 25.3854,
+      "min_ticks": 72058.0,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 25.8251,
+      "min_ticks": 72523.0,
+      "checksum_ok": true,
+      "affinity_ok": true
+     }
+    ]
+   }
+  },
+  "T4": {
+   "mask_cpus": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "B1_gbps_at_4xLLC": 42.7363,
+   "B1_gbps_at_8xLLC": 42.7187,
+   "B2_gbps": 49.0852,
+   "medians": {
+    "B1_1040MiB": 42.7363,
+    "B1_2080MiB": 42.7187,
+    "B2": 49.0852
+   },
+   "cv_pct": {
+    "B1_1040MiB": 3.59276660071958,
+    "B1_2080MiB": 1.471115911653052,
+    "B2": 2.443890396163452
+   },
+   "checks": {
+    "V5_plateau_diff_pct": 0.04119975561054436,
+    "V5_pass": true,
+    "V9_B1_cv_pct": 1.471115911653052,
+    "V9_B2_cv_pct": 2.443890396163452,
+    "V9_pass": false,
+    "V11_pass": true,
+    "V13_min_ticks": 20805.4,
+    "V13_pass": true,
+    "checksums_ok": true,
+    "steal_pct_of_cpu_time": 0.8041000265087921
+   },
+   "runs": {
+    "B1_1040MiB": [
+     {
+      "gbps": 43.0207,
+      "min_ticks": 22101.3,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 41.1887,
+      "min_ticks": 25070.8,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 41.0321,
+      "min_ticks": 25367.2,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 45.2656,
+      "min_ticks": 20805.4,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 42.7363,
+      "min_ticks": 21034.7,
+      "checksum_ok": true,
+      "affinity_ok": true
+     }
+    ],
+    "B1_2080MiB": [
+     {
+      "gbps": 42.9073,
+      "min_ticks": 44248.5,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 43.4576,
+      "min_ticks": 43229.7,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 42.1873,
+      "min_ticks": 50602.4,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 41.6255,
+      "min_ticks": 45064.3,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 42.7187,
+      "min_ticks": 42705.3,
+      "checksum_ok": true,
+      "affinity_ok": true
+     }
+    ],
+    "B2": [
+     {
+      "gbps": 48.5568,
+      "min_ticks": 39109.0,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 49.822,
+      "min_ticks": 31058.0,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 49.7955,
+      "min_ticks": 37506.0,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 46.5793,
+      "min_ticks": 39394.0,
+      "checksum_ok": true,
+      "affinity_ok": true
+     },
+     {
+      "gbps": 49.0852,
+      "min_ticks": 34656.0,
+      "checksum_ok": true,
+      "affinity_ok": true
+     }
+    ]
+   }
+  }
+ }
+}
