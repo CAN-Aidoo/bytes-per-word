@@ -1,0 +1,8 @@
+{
+ "cell": "A_Qwen3-4B_Q8_0_d0",
+ "session": "S20261110T111709Z",
+ "status": "DNF",
+ "available_bytes": 4310360064,
+ "needed_bytes": 5363584128.0,
+ "note": "PROTOCOL 3.5 rule 2 failed at block start; DNF is final only after a fresh restart with no other user programs (re-run this file in a session started right after a restart)"
+}

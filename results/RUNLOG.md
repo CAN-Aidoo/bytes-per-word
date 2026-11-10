@@ -1,0 +1,39 @@
+- 2026-11-10T01:33:24Z S20261110T013324Z session start; order = ['A_Qwen3-4B_Q8_0_d0', 'A_Qwen3-0.6B_Q8_0_d0', 'A_Qwen3-0.6B_Q4_K_M_d0', 'A_Qwen3-0.6B_F16_d0', 'A_Qwen3-4B_Q4_K_M_d0', 'A_Qwen3-1.7B_Q4_K_M_d0', 'A_Qwen3-1.7B_F16_d0']; budget 3.0 h
+- 2026-11-10T01:34:44Z S20261110T013444Z session start; order = ['A_Qwen3-4B_Q8_0_d0', 'A_Qwen3-0.6B_Q8_0_d0', 'A_Qwen3-0.6B_Q4_K_M_d0', 'A_Qwen3-0.6B_F16_d0', 'A_Qwen3-4B_Q4_K_M_d0', 'A_Qwen3-1.7B_Q4_K_M_d0', 'A_Qwen3-1.7B_F16_d0']; budget 3.0 h
+- 2026-11-10T01:35:30Z S20261110T013444Z sentinel opening: 18.947707 tok/s (deviation from opening sentinel: 0.0)
+- 2026-11-10T01:35:32Z S20261110T013444Z download ggml-org/Qwen3-4B-GGUF@2f3b082b1356/Qwen3-4B-Q8_0.gguf (4280405120 bytes)
+- 2026-11-10T09:56:20Z S20261110T095620Z session start; order = ['A_Qwen3-4B_Q8_0_d0', 'A_Qwen3-0.6B_Q8_0_d0', 'A_Qwen3-0.6B_Q4_K_M_d0', 'A_Qwen3-0.6B_F16_d0', 'A_Qwen3-4B_Q4_K_M_d0', 'A_Qwen3-1.7B_Q4_K_M_d0', 'A_Qwen3-1.7B_F16_d0']; budget 3.0 h
+- 2026-11-10T09:58:13Z S20261110T095620Z sentinel opening: 16.418646 tok/s (deviation from opening sentinel: 0.0)
+- 2026-11-10T09:58:17Z S20261110T095620Z download ggml-org/Qwen3-4B-GGUF@2f3b082b1356/Qwen3-4B-Q8_0.gguf (4280405120 bytes)
+- 2026-11-10T11:17:09Z S20261110T111709Z session start; order = ['A_Qwen3-4B_Q8_0_d0', 'A_Qwen3-0.6B_Q8_0_d0', 'A_Qwen3-0.6B_Q4_K_M_d0', 'A_Qwen3-0.6B_F16_d0', 'A_Qwen3-4B_Q4_K_M_d0', 'A_Qwen3-1.7B_Q4_K_M_d0', 'A_Qwen3-1.7B_F16_d0']; budget 3.0 h
+- 2026-11-10T11:20:13Z S20261110T111709Z sentinel opening: 18.94709 tok/s (deviation from opening sentinel: 0.0)
+- 2026-11-10T11:20:21Z S20261110T111709Z download ggml-org/Qwen3-4B-GGUF@2f3b082b1356/Qwen3-4B-Q8_0.gguf (4280405120 bytes)
+- 2026-11-10T12:15:27Z S20261110T111709Z A_Qwen3-4B_Q8_0_d0: RAM fit failed (4310360064 < 5363584128.0 bytes): recorded DNF for this session
+- 2026-11-10T12:15:29Z S20261110T111709Z deleted Qwen3-4B-Q8_0.gguf (hash and revision recorded, re-obtainable)
+- 2026-11-10T12:15:30Z S20261110T111709Z download ggml-org/Qwen3-0.6B-GGUF@13ac06624948/Qwen3-0.6B-Q8_0.gguf (804753632 bytes)
+- 2026-11-10T12:27:48Z S20261110T111709Z A_Qwen3-0.6B_Q8_0_d0: precision h/mean = 0.06167547415465731 > 2%: 3 more rounds (one look, max 8)
+- 2026-11-10T12:31:36Z S20261110T111709Z sentinel after_A_Qwen3-0.6B_Q8_0_d0: 20.275305 tok/s (deviation from opening sentinel: 7.010126621027293)
+- 2026-11-10T12:31:36Z S20261110T111709Z A_Qwen3-0.6B_Q8_0_d0: complete, 8 rounds, mean 13.134379875, h/mean 0.03581224822404657, sentinel dev 7.010126621027293%
+- 2026-11-10T12:31:37Z S20261110T111709Z download ggml-org/Qwen3-0.6B-GGUF@13ac06624948/Qwen3-0.6B-f16.gguf (1509347424 bytes)
+- 2026-11-10T12:37:52Z S20261110T111709Z llama-quantize Qwen3-0.6B-F16.gguf -> Qwen3-0.6B-Q4_K_M.gguf (Q4_K_M, no imatrix)
+- 2026-11-10T12:41:49Z S20261110T111709Z A_Qwen3-0.6B_Q4_K_M_d0: V4 failed (1.229% outside the tensor table): block still run, flagged
+- 2026-11-10T12:46:15Z S20261110T111709Z A_Qwen3-0.6B_Q4_K_M_d0: precision h/mean = 0.06069510617819586 > 2%: 3 more rounds (one look, max 8)
+- 2026-11-10T12:49:41Z S20261110T111709Z sentinel after_A_Qwen3-0.6B_Q4_K_M_d0: 19.799198 tok/s (deviation from opening sentinel: 4.4973027520321125)
+- 2026-11-10T12:49:41Z S20261110T111709Z A_Qwen3-0.6B_Q4_K_M_d0: complete, 8 rounds, mean 16.687801, h/mean 0.03291747967225777, sentinel dev 4.4973027520321125%
+- 2026-11-10T12:49:42Z S20261110T111709Z deleted Qwen3-0.6B-Q4_K_M.gguf (hash and revision recorded, re-obtainable)
+- 2026-11-10T13:04:30Z S20261110T111709Z A_Qwen3-0.6B_F16_d0: precision h/mean = 0.09231283519427465 > 2%: 3 more rounds (one look, max 8)
+- 2026-11-10T13:10:29Z S20261110T111709Z sentinel after_A_Qwen3-0.6B_F16_d0: 18.22863 tok/s (deviation from opening sentinel: 3.7919279424967125)
+- 2026-11-10T13:10:29Z S20261110T111709Z A_Qwen3-0.6B_F16_d0: complete, 8 rounds, mean 8.545154, h/mean 0.05044147841536749, sentinel dev 3.7919279424967125%
+- 2026-11-10T13:10:30Z S20261110T111709Z deleted Qwen3-0.6B-F16.gguf (hash and revision recorded, re-obtainable)
+- 2026-11-10T13:10:31Z S20261110T111709Z download ggml-org/Qwen3-4B-GGUF@2f3b082b1356/Qwen3-4B-Q4_K_M.gguf (2497280640 bytes)
+- 2026-11-10T13:43:04Z S20261110T111709Z sentinel after_A_Qwen3-4B_Q4_K_M_d0: 18.561853 tok/s (deviation from opening sentinel: 2.0332251548918596)
+- 2026-11-10T13:43:04Z S20261110T111709Z A_Qwen3-4B_Q4_K_M_d0: complete, 5 rounds, mean 3.6598192, h/mean 0.017090360825684887, sentinel dev 2.0332251548918596%
+- 2026-11-10T13:43:06Z S20261110T111709Z deleted Qwen3-4B-Q4_K_M.gguf (hash and revision recorded, re-obtainable)
+- 2026-11-10T13:43:06Z S20261110T111709Z time budget reached before A_Qwen3-1.7B_Q4_K_M_d0: stopping; next session resumes here
+- 2026-11-10T13:45:36Z S20261110T111709Z A_Qwen3-0.6B_Q8_0_d0: sentinel-flagged block re-run (PROTOCOL 4.6, 5.7)
+- 2026-11-10T13:51:02Z S20261110T111709Z A_Qwen3-0.6B_Q8_0_d0: precision h/mean = 0.03006872951165286 > 2%: 3 more rounds (one look, max 8)
+- 2026-11-10T13:54:54Z S20261110T111709Z sentinel after_A_Qwen3-0.6B_Q8_0_d0: 18.021732 tok/s (deviation from opening sentinel: 4.883905655169206)
+- 2026-11-10T13:54:54Z S20261110T111709Z A_Qwen3-0.6B_Q8_0_d0: complete, 8 rounds, mean 13.31505, h/mean 0.016507972157340192, sentinel dev 4.883905655169206%
+- 2026-11-10T13:54:54Z S20261110T111709Z deleted Qwen3-0.6B-Q8_0.gguf (hash and revision recorded, re-obtainable)
+- 2026-11-10T13:55:48Z S20261110T111709Z sentinel closing: 19.754344 tok/s (deviation from opening sentinel: 4.260569828928877)
+- 2026-11-10T13:55:48Z S20261110T111709Z session end; cells still to run: ['A_Qwen3-4B_Q8_0_d0', 'A_Qwen3-1.7B_Q4_K_M_d0', 'A_Qwen3-1.7B_F16_d0']

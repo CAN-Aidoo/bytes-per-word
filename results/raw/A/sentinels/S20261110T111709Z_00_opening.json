@@ -1,0 +1,43 @@
+{
+ "tag": "opening",
+ "session": "S20261110T111709Z",
+ "round": {
+  "failed": false,
+  "value_toks": 18.94709,
+  "samples": [
+   18.2617,
+   18.8887,
+   19.1365,
+   19.1879,
+   19.2608
+  ],
+  "pre": {
+   "cpu_pct_5s": 2.2,
+   "avail_gib": 4.08,
+   "plugged": true
+  },
+  "post": {
+   "cpu_pct_5s": 9.5,
+   "avail_gib": 4.12,
+   "plugged": true
+  },
+  "monitor": {
+   "min_avail_gib": 3.69,
+   "all_plugged": true,
+   "pages_in_samples": 34,
+   "pages_in_nonzero_after_load": 3,
+   "pages_in_max_after_load": 7.886129
+  },
+  "start_flagged_not_quiet": false,
+  "round_flags": [],
+  "returncode": 0,
+  "backends": "CPU",
+  "build_commit": "3259ab6",
+  "cpu_mask": "0x555",
+  "cpu_strict": true,
+  "n_threads": 6,
+  "time_utc": "2026-11-10T11:20:13Z",
+  "attempt": 1
+ },
+ "failure": null
+}

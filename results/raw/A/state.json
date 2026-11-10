@@ -1,0 +1,444 @@
+{
+ "cells": {
+  "A_Qwen3-4B_Q8_0_d0": {
+   "status": "DNF",
+   "block": null,
+   "session": "S20261110T111709Z",
+   "sha256": "865fbdcb8119c5cd5ba557b139d49351aa2c4e33bf93bdd7b08e24b573dd1dd4"
+  },
+  "A_Qwen3-0.6B_Q8_0_d0": {
+   "status": "complete",
+   "block": "C:\\Users\\Clement Nana Aidoo\\bytes-per-word\\results\\raw\\A\\A_Qwen3-0.6B_Q8_0_d0/S20261110T111709Z_block00_primary.json",
+   "session": "S20261110T111709Z",
+   "sha256": "361cc68159042c36ebff7715dc5a2e4612153e88f3e9c9c234820849d6dc9e1d"
+  },
+  "A_Qwen3-0.6B_Q4_K_M_d0": {
+   "status": "complete",
+   "block": "C:\\Users\\Clement Nana Aidoo\\bytes-per-word\\results\\raw\\A\\A_Qwen3-0.6B_Q4_K_M_d0/S20261110T111709Z_block00_primary.json",
+   "session": "S20261110T111709Z",
+   "sha256": "28b1c721c1e476d3e41c629d5993c0aaeca0f3b747afdbab667f5a4bc8e37665"
+  },
+  "A_Qwen3-0.6B_F16_d0": {
+   "status": "complete",
+   "block": "C:\\Users\\Clement Nana Aidoo\\bytes-per-word\\results\\raw\\A\\A_Qwen3-0.6B_F16_d0/S20261110T111709Z_block00_primary.json",
+   "session": "S20261110T111709Z",
+   "sha256": "ab9004daf660cd6a6ba1c07556e74fcceb2b756063ccce3f9c69d3a637b361cc"
+  },
+  "A_Qwen3-4B_Q4_K_M_d0": {
+   "status": "complete",
+   "block": "C:\\Users\\Clement Nana Aidoo\\bytes-per-word\\results\\raw\\A\\A_Qwen3-4B_Q4_K_M_d0/S20261110T111709Z_block00_primary.json",
+   "session": "S20261110T111709Z",
+   "sha256": "ab27b9bfa375a178d6cba48f3ad892b94b7739659dcc7aae8058ce0ffed6b328"
+  }
+ },
+ "sessions": [
+  {
+   "id": "S20261110T013324Z",
+   "start_utc": "2026-11-10T01:33:24Z",
+   "facts": {
+    "time_utc": "2026-11-10T01:33:24Z",
+    "free_disk_bytes": 10186461184,
+    "available_bytes": 3637735424,
+    "total_bytes": 7865905152,
+    "plugged": true,
+    "power_plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)",
+    "bench": "C:\\Users\\Clement Nana Aidoo\\llama.cpp-b12129\\build-x64-windows-llvm-release\\bin\\llama-bench.exe",
+    "flags": [
+     "-p",
+     "0",
+     "-n",
+     "128",
+     "-d",
+     "0",
+     "-r",
+     "5",
+     "-t",
+     "6",
+     "-C",
+     "0x555",
+     "--cpu-strict",
+     "1",
+     "-ngl",
+     "0",
+     "-fa",
+     "off",
+     "-ctk",
+     "f16",
+     "-ctv",
+     "f16",
+     "-lm",
+     "none",
+     "--repack",
+     "1",
+     "--prio",
+     "0",
+     "-o",
+     "jsonl"
+    ],
+    "python": "3.13.14",
+    "mask_A": {
+     "physical_cores": 6,
+     "logical_cpus": 12,
+     "cores": [
+      [
+       0,
+       1
+      ],
+      [
+       2,
+       3
+      ],
+      [
+       4,
+       5
+      ],
+      [
+       6,
+       7
+      ],
+      [
+       8,
+       9
+      ],
+      [
+       10,
+       11
+      ]
+     ],
+     "cpu_list": [
+      0,
+      2,
+      4,
+      6,
+      8,
+      10
+     ],
+     "mask_hex": "0x555"
+    }
+   }
+  },
+  {
+   "id": "S20261110T013444Z",
+   "start_utc": "2026-11-10T01:34:44Z",
+   "facts": {
+    "time_utc": "2026-11-10T01:34:44Z",
+    "free_disk_bytes": 10186084352,
+    "available_bytes": 3652009984,
+    "total_bytes": 7865905152,
+    "plugged": true,
+    "power_plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)",
+    "bench": "C:\\Users\\Clement Nana Aidoo\\llama.cpp-b12129\\build-x64-windows-llvm-release\\bin\\llama-bench.exe",
+    "flags": [
+     "-p",
+     "0",
+     "-n",
+     "128",
+     "-d",
+     "0",
+     "-r",
+     "5",
+     "-t",
+     "6",
+     "-C",
+     "0x555",
+     "--cpu-strict",
+     "1",
+     "-ngl",
+     "0",
+     "-fa",
+     "off",
+     "-ctk",
+     "f16",
+     "-ctv",
+     "f16",
+     "-lm",
+     "none",
+     "--repack",
+     "1",
+     "--prio",
+     "0",
+     "-o",
+     "jsonl"
+    ],
+    "python": "3.13.14",
+    "mask_A": {
+     "physical_cores": 6,
+     "logical_cpus": 12,
+     "cores": [
+      [
+       0,
+       1
+      ],
+      [
+       2,
+       3
+      ],
+      [
+       4,
+       5
+      ],
+      [
+       6,
+       7
+      ],
+      [
+       8,
+       9
+      ],
+      [
+       10,
+       11
+      ]
+     ],
+     "cpu_list": [
+      0,
+      2,
+      4,
+      6,
+      8,
+      10
+     ],
+     "mask_hex": "0x555"
+    }
+   }
+  },
+  {
+   "id": "S20261110T095620Z",
+   "start_utc": "2026-11-10T09:56:20Z",
+   "facts": {
+    "time_utc": "2026-11-10T09:56:20Z",
+    "free_disk_bytes": 8632463360,
+    "available_bytes": 701181952,
+    "total_bytes": 7865905152,
+    "plugged": true,
+    "power_plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)",
+    "bench": "C:\\Users\\Clement Nana Aidoo\\llama.cpp-b12129\\build-x64-windows-llvm-release\\bin\\llama-bench.exe",
+    "flags": [
+     "-p",
+     "0",
+     "-n",
+     "128",
+     "-d",
+     "0",
+     "-r",
+     "5",
+     "-t",
+     "6",
+     "-C",
+     "0x555",
+     "--cpu-strict",
+     "1",
+     "-ngl",
+     "0",
+     "-fa",
+     "off",
+     "-ctk",
+     "f16",
+     "-ctv",
+     "f16",
+     "-lm",
+     "none",
+     "--repack",
+     "1",
+     "--prio",
+     "0",
+     "-o",
+     "jsonl"
+    ],
+    "python": "3.13.14",
+    "mask_A": {
+     "physical_cores": 6,
+     "logical_cpus": 12,
+     "cores": [
+      [
+       0,
+       1
+      ],
+      [
+       2,
+       3
+      ],
+      [
+       4,
+       5
+      ],
+      [
+       6,
+       7
+      ],
+      [
+       8,
+       9
+      ],
+      [
+       10,
+       11
+      ]
+     ],
+     "cpu_list": [
+      0,
+      2,
+      4,
+      6,
+      8,
+      10
+     ],
+     "mask_hex": "0x555"
+    }
+   }
+  },
+  {
+   "id": "S20261110T111709Z",
+   "start_utc": "2026-11-10T11:17:09Z",
+   "facts": {
+    "time_utc": "2026-11-10T11:17:09Z",
+    "free_disk_bytes": 7336939520,
+    "available_bytes": 4356767744,
+    "total_bytes": 7865905152,
+    "plugged": true,
+    "power_plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)",
+    "bench": "C:\\Users\\Clement Nana Aidoo\\llama.cpp-b12129\\build-x64-windows-llvm-release\\bin\\llama-bench.exe",
+    "flags": [
+     "-p",
+     "0",
+     "-n",
+     "128",
+     "-d",
+     "0",
+     "-r",
+     "5",
+     "-t",
+     "6",
+     "-C",
+     "0x555",
+     "--cpu-strict",
+     "1",
+     "-ngl",
+     "0",
+     "-fa",
+     "off",
+     "-ctk",
+     "f16",
+     "-ctv",
+     "f16",
+     "-lm",
+     "none",
+     "--repack",
+     "1",
+     "--prio",
+     "0",
+     "-o",
+     "jsonl"
+    ],
+    "python": "3.13.14",
+    "mask_A": {
+     "physical_cores": 6,
+     "logical_cpus": 12,
+     "cores": [
+      [
+       0,
+       1
+      ],
+      [
+       2,
+       3
+      ],
+      [
+       4,
+       5
+      ],
+      [
+       6,
+       7
+      ],
+      [
+       8,
+       9
+      ],
+      [
+       10,
+       11
+      ]
+     ],
+     "cpu_list": [
+      0,
+      2,
+      4,
+      6,
+      8,
+      10
+     ],
+     "mask_hex": "0x555"
+    }
+   },
+   "end_utc": "2026-11-10T13:55:48Z"
+  }
+ ],
+ "revisions": {
+  "ggml-org/Qwen3-1.7B-GGUF": "daeb8e2d528a760970442092f6bf1e55c3b659eb",
+  "ggml-org/Qwen3-4B-GGUF": "2f3b082b1356a6123f7ed71e65aea340da25d53c",
+  "ggml-org/Qwen3-0.6B-GGUF": "13ac06624948e4d8589cb4b6f90100837342fcb8"
+ },
+ "files": {
+  "C:\\Users\\Clement Nana Aidoo\\hostA-downloads\\Qwen3-4B-Q8_0.gguf": {
+   "model": "Qwen3-4B",
+   "quant": "Q8_0",
+   "repo": "ggml-org/Qwen3-4B-GGUF",
+   "revision_commit": "2f3b082b1356a6123f7ed71e65aea340da25d53c",
+   "filename": "Qwen3-4B-Q8_0.gguf",
+   "bytes": 4280405120,
+   "sha256": "865fbdcb8119c5cd5ba557b139d49351aa2c4e33bf93bdd7b08e24b573dd1dd4",
+   "licence": "Apache-2.0",
+   "downloaded_utc": "2026-11-10T12:12:52Z",
+   "host": "A"
+  },
+  "C:\\Users\\Clement Nana Aidoo\\hostA-downloads\\Qwen3-0.6B-Q8_0.gguf": {
+   "model": "Qwen3-0.6B",
+   "quant": "Q8_0",
+   "repo": "ggml-org/Qwen3-0.6B-GGUF",
+   "revision_commit": "13ac06624948e4d8589cb4b6f90100837342fcb8",
+   "filename": "Qwen3-0.6B-Q8_0.gguf",
+   "bytes": 804753632,
+   "sha256": "361cc68159042c36ebff7715dc5a2e4612153e88f3e9c9c234820849d6dc9e1d",
+   "licence": "Apache-2.0",
+   "downloaded_utc": "2026-11-10T12:19:46Z",
+   "host": "A"
+  },
+  "C:\\Users\\Clement Nana Aidoo\\hostA-downloads\\Qwen3-0.6B-F16.gguf": {
+   "model": "Qwen3-0.6B",
+   "quant": "F16",
+   "repo": "ggml-org/Qwen3-0.6B-GGUF",
+   "revision_commit": "13ac06624948e4d8589cb4b6f90100837342fcb8",
+   "filename": "Qwen3-0.6B-f16.gguf",
+   "bytes": 1509347424,
+   "sha256": "ab9004daf660cd6a6ba1c07556e74fcceb2b756063ccce3f9c69d3a637b361cc",
+   "licence": "Apache-2.0",
+   "downloaded_utc": "2026-11-10T12:37:52Z",
+   "host": "A"
+  },
+  "C:\\Users\\Clement Nana Aidoo\\hostA-downloads\\Qwen3-0.6B-Q4_K_M.gguf": {
+   "model": "Qwen3-0.6B",
+   "quant": "Q4_K_M",
+   "repo": "local: llama-quantize Q4_K_M (no imatrix) of Qwen3-0.6B-f16.gguf",
+   "revision_commit": "llama.cpp 3259ab6e; source sha256 ab9004daf660cd6a6ba1c07556e74fcceb2b756063ccce3f9c69d3a637b361cc",
+   "filename": "Qwen3-0.6B-Q4_K_M.gguf",
+   "bytes": 484220000,
+   "sha256": "28b1c721c1e476d3e41c629d5993c0aaeca0f3b747afdbab667f5a4bc8e37665",
+   "licence": "Apache-2.0",
+   "downloaded_utc": "2026-11-10T12:39:23Z",
+   "host": "A"
+  },
+  "C:\\Users\\Clement Nana Aidoo\\hostA-downloads\\Qwen3-4B-Q4_K_M.gguf": {
+   "model": "Qwen3-4B",
+   "quant": "Q4_K_M",
+   "repo": "ggml-org/Qwen3-4B-GGUF",
+   "revision_commit": "2f3b082b1356a6123f7ed71e65aea340da25d53c",
+   "filename": "Qwen3-4B-Q4_K_M.gguf",
+   "bytes": 2497280640,
+   "sha256": "ab27b9bfa375a178d6cba48f3ad892b94b7739659dcc7aae8058ce0ffed6b328",
+   "licence": "Apache-2.0",
+   "downloaded_utc": "2026-11-10T13:22:32Z",
+   "host": "A"
+  }
+ }
+}
