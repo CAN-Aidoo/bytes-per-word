@@ -21,7 +21,7 @@ echo === 1. WSL ===
 wsl --shutdown >nul 2>&1
 set /a TRIES=0
 :waitwsl
-tasklist 2>nul | findstr /i /b /c:"vmmem" /c:"wslservice.exe" /c:"wsl.exe" >nul
+tasklist 2>nul | findstr /i /b /c:"vmmem" /c:"wsl.exe" >nul
 if errorlevel 1 goto wsldone
 set /a TRIES+=1
 if %TRIES% GEQ 30 goto wslstuck
@@ -29,12 +29,11 @@ timeout /t 2 /nobreak >nul
 goto waitwsl
 :wslstuck
 echo WSL processes are still running after 60 s. Trying to end them; this needs a Command Prompt run as administrator.
-taskkill /f /im wslservice.exe >nul 2>&1
 taskkill /f /im wsl.exe >nul 2>&1
 taskkill /f /im vmmem.exe >nul 2>&1
 taskkill /f /im vmmemWSL.exe >nul 2>&1
 timeout /t 3 /nobreak >nul
-tasklist 2>nul | findstr /i /b /c:"vmmem" /c:"wslservice.exe" /c:"wsl.exe" >nul
+tasklist 2>nul | findstr /i /b /c:"vmmem" /c:"wsl.exe" >nul
 if errorlevel 1 goto wsldone
 echo WSL is still running. Restart the laptop, then run this file again before opening any Ubuntu or WSL terminal.
 goto model
