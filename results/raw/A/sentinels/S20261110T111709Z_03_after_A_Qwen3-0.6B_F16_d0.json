@@ -1,0 +1,43 @@
+{
+ "tag": "after_A_Qwen3-0.6B_F16_d0",
+ "session": "S20261110T111709Z",
+ "round": {
+  "failed": false,
+  "value_toks": 18.22863,
+  "samples": [
+   18.3576,
+   20.0497,
+   20.0992,
+   17.7666,
+   14.8701
+  ],
+  "pre": {
+   "cpu_pct_5s": 4.1,
+   "avail_gib": 4.27,
+   "plugged": true
+  },
+  "post": {
+   "cpu_pct_5s": 16.7,
+   "avail_gib": 4.22,
+   "plugged": true
+  },
+  "monitor": {
+   "min_avail_gib": 3.81,
+   "all_plugged": true,
+   "pages_in_samples": 34,
+   "pages_in_nonzero_after_load": 16,
+   "pages_in_max_after_load": 7959.769423
+  },
+  "start_flagged_not_quiet": false,
+  "round_flags": [],
+  "returncode": 0,
+  "backends": "CPU",
+  "build_commit": "3259ab6",
+  "cpu_mask": "0x555",
+  "cpu_strict": true,
+  "n_threads": 6,
+  "time_utc": "2026-11-10T13:10:29Z",
+  "attempt": 1
+ },
+ "failure": null
+}
