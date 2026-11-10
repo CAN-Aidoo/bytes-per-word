@@ -23,6 +23,7 @@ import argparse
 import csv
 import datetime as dt
 import hashlib
+import http.client
 import json
 import math
 import os
@@ -130,16 +131,39 @@ class HF:
         e = files[hits[0]]
         return rev, hits[0], (e.get("lfs") or {}).get("oid"), e.get("size")
 
-    def download(self, repo, rev, fname, dest, expected_sha=None):
-        url = f"https://huggingface.co/{repo}/resolve/{rev}/{fname}"
+    base = "https://huggingface.co"
+
+    def download(self, repo, rev, fname, dest, expected_sha=None, size=None, attempts=8):
+        """Download to dest + '.part', resuming with an HTTP Range request after a network error, then check the SHA-256 against
+        the Hugging Face LFS hash (V3). A stalled or dropped connection used to abort the whole session on the first error."""
+        url = f"{self.base}/{repo}/resolve/{rev}/{fname}"
         part = dest + ".part"
-        h = hashlib.sha256()
-        req = urllib.request.Request(url, headers={"User-Agent": "canlabs-bytes-per-word/1.0"})
-        with urllib.request.urlopen(req, timeout=120) as r, open(part, "wb") as f:
-            for chunk in iter(lambda: r.read(1 << 22), b""):
-                f.write(chunk)
-                h.update(chunk)
-        digest = h.hexdigest()
+        last = None
+        for attempt in range(1, attempts + 1):
+            have = os.path.getsize(part) if os.path.exists(part) else 0
+            if size and have == size:
+                break
+            headers = {"User-Agent": "canlabs-bytes-per-word/1.0"}
+            if have:
+                headers["Range"] = f"bytes={have}-"
+            try:
+                with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=120) as r:
+                    mode = "ab"
+                    if have and r.status != 206:  # server ignored the Range header: start again from zero
+                        mode = "wb"
+                    with open(part, mode) as f:
+                        for chunk in iter(lambda: r.read(1 << 22), b""):
+                            f.write(chunk)
+                if not size or os.path.getsize(part) == size:
+                    break
+                last = RuntimeError(f"got {os.path.getsize(part)} of {size} bytes")
+            except (OSError, http.client.HTTPException) as e:  # TimeoutError, URLError and ConnectionError are OSError
+                last = e
+            if attempt < attempts:
+                time.sleep(min(60, 5 * attempt))
+        else:
+            raise RuntimeError(f"download of {fname} failed after {attempts} attempts: {last!r}")
+        digest = sha256(part)
         if expected_sha and digest != expected_sha:
             os.remove(part)
             raise RuntimeError(f"SHA-256 mismatch for {fname}: got {digest}, Hugging Face LFS says {expected_sha} (V3)")
@@ -292,7 +316,7 @@ class Session:
             rev, fname, lfs_sha, size = self.hf.find(repo, quant)
             self.check_disk(size or 0)
             self.log(f"download {repo}@{rev[:12]}/{fname} ({size} bytes)")
-            digest = self.hf.download(repo, rev, fname, dest, expected_sha=lfs_sha)
+            digest = self.hf.download(repo, rev, fname, dest, expected_sha=lfs_sha, size=size)
             row = {"model": model, "quant": quant, "repo": repo, "revision_commit": rev, "filename": fname,
                    "bytes": os.path.getsize(dest), "sha256": digest, "licence": "Apache-2.0", "downloaded_utc": now(), "host": HOST}
             if lfs_sha is None:
