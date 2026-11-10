@@ -488,7 +488,10 @@ def preflight(a):
     names = {p.info["name"].lower() for p in psutil.process_iter(["name"]) if p.info.get("name")}
     if any(n.startswith("claude") for n in names):
         problems.append("the Claude desktop app is running: close it (it slows Host A; PROTOCOL deviation 2026-11-08)")
-    if any(n in names for n in ("vmmem", "vmmemwsl", "wslservice.exe", "wsl.exe")):
+    # PROTOCOL 3.8 fallback: WSL is "not running" when there is no vmmem process. wslservice.exe is only the idle WSL Windows
+    # service; it stays resident after `wsl --shutdown` with no VM and no distribution (confirmed on Host A 2026-11-09), so it is
+    # not counted. A running distribution or open WSL terminal shows as wsl.exe.
+    if any(n in names for n in ("vmmem", "vmmemwsl", "wsl.exe")):
         problems.append("WSL is running: run `wsl --shutdown` first (G1 condition 3)")
     b = psutil.sensors_battery()
     if not (b and b.power_plugged):
